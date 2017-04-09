@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="TestFlow" class="pl.piterpti.flow.TestFlow" scope="prototype"/>
+
+
+    <bean id="controller" class="pl.piterpti.controller.Controller" scope="singleton">
+        <constructor-arg>
+            <list>
+                <value type="java.lang.Class">pl.piterpti.flow.TestFlow</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+    <!-- SCREENS -->
+    <bean id="MainScreen" class="pl.piterpti.gui.screen.MainScreen">
+        <constructor-arg>
+            <value>Remote MP3 Player</value>
+        </constructor-arg>
+    </bean>
+
+</beans>
