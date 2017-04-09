@@ -4,13 +4,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <bean id="TestFlow" class="pl.piterpti.flow.TestFlow" scope="prototype"/>
+    <bean id="Mp3PlayerFlow" class="pl.piterpti.flow.Mp3PlayerFlow" scope="prototype"/>
 
 
     <bean id="controller" class="pl.piterpti.controller.Controller" scope="singleton">
         <constructor-arg>
             <list>
-                <value type="java.lang.Class">pl.piterpti.flow.TestFlow</value>
+                <value type="java.lang.Class">pl.piterpti.flow.Mp3PlayerFlow</value>
             </list>
         </constructor-arg>
     </bean>

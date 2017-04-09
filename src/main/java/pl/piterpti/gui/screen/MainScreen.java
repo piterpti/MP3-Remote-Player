@@ -1,5 +1,6 @@
 package pl.piterpti.gui.screen;
 
+import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
 
 import javax.swing.*;
@@ -31,11 +32,11 @@ public class MainScreen extends EmptyScreen {
         mainPanel.add(stopBtn, BorderLayout.NORTH);
 
         playBtn.addActionListener(e -> {
-            controller.doAction(1L);
+            controller.doAction(Actions.PLAY_MUSIC);
         });
 
         stopBtn.addActionListener(e ->{
-            controller.doAction(2L);
+            controller.doAction(Actions.STOP_MUSIC);
         });
 
     }

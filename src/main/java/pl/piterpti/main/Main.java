@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import pl.piterpti.controller.Controller;
-import pl.piterpti.flow.TestFlow;
+import pl.piterpti.flow.Mp3PlayerFlow;
 
 import javax.swing.*;
 
@@ -24,7 +24,7 @@ public class Main {
             controller.setContext(context);
             Thread executor = new Thread(controller);
             executor.start();
-            controller.callFlow(TestFlow.class);
+            controller.callFlow(Mp3PlayerFlow.class);
         });
     }
 }
