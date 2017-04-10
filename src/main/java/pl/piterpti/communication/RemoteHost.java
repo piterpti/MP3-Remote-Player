@@ -2,11 +2,11 @@ package pl.piterpti.communication;
 
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created by piter on 10.04.17.
@@ -40,7 +40,7 @@ public class RemoteHost extends Thread {
 
         try {
             hostServer = new ServerSocket(port);
-            hostServer.setSoTimeout(1000 * 60);
+            hostServer.setSoTimeout(1000 * 600);
         } catch (IOException e) {
             logger.warn("Error when creating server:" + e.toString());
         }
@@ -57,23 +57,42 @@ public class RemoteHost extends Thread {
             try {
                 socket = hostServer.accept();
                 setClientConnected(true);
-                streamOut  = new ObjectOutputStream(socket.getOutputStream());
-                streamIn = new ObjectInputStream((socket.getInputStream()));
+//                streamOut  = new ObjectOutputStream(socket.getOutputStream());
+//                streamIn = new ObjectInputStream((socket.getInputStream()));
 
-                streamOut.writeObject(new MessageWelcome());
+                InputStream is = socket.getInputStream();
+                ObjectInputStream ois = new ObjectInputStream(is);
+                String path = ois.readUTF();
+                logger.info(path);
 
-                while (isClientConnected()) {
-                    synchronized (lock) {
-                        receivedMsg = (Message) streamIn.readObject();
-                        logger.info("Received from host: " + receivedMsg.toString());
-                    }
+                Path p = Paths.get(path);
+                String file = p.getFileName().toString();
+                FileOutputStream out = new FileOutputStream(file);
 
-                    receivedMsg = null;
+
+
+                int count;
+                byte[] buffer = new byte[4096]; // or 4096, or more
+                while ((count = is.read(buffer)) > 0)
+                {
+                    out.write(buffer, 0, count);
                 }
+                out.close();
+
+
+//                while (isClientConnected()) {
+//                    synchronized (lock) {
+//                        receivedMsg = (Message) streamIn.readObject();
+//                        logger.info("Received from host: " + receivedMsg.toString());
+//                    }
+//
+//                    receivedMsg = null;
+//                }
 
 
             } catch (Exception e) {
                 logger.warn("Communication problem: " + e.getMessage());
+                e.printStackTrace();
             }
 
         }
