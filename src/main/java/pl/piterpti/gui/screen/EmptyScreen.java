@@ -14,7 +14,7 @@ public abstract class EmptyScreen extends JFrame {
 
     protected Controller controller;
 
-    protected static final Dimension DEFAULT_DIM = new Dimension(400, 400);
+    protected static final Dimension DEFAULT_DIM = new Dimension(500, 400);
     protected JPanel mainPanel;
 
     public EmptyScreen(String s, Controller controller) {

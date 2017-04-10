@@ -1,9 +1,9 @@
 package pl.piterpti.flow;
 
 import org.apache.log4j.Logger;
+import pl.piterpti.controller.Action;
 import pl.piterpti.controller.Controller;
 import pl.piterpti.gui.screen.EmptyScreen;
-import sun.awt.X11.Screen;
 
 /**
  * Created by piter on 09.04.17.
@@ -34,8 +34,8 @@ public abstract class Flow implements Runnable {
         controller = screen.getController();
     }
 
-    public void handleAction(long actionId) {
-        logger.info("Action " + actionId);
+    public void handleAction(Action action) {
+        logger.info("Action " + action.getId());
     }
 
 }

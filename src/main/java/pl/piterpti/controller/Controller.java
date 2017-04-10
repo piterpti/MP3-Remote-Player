@@ -3,12 +3,14 @@ package pl.piterpti.controller;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import pl.piterpti.flow.Flow;
+import pl.piterpti.flow.FlowArgs;
 import pl.piterpti.gui.screen.EmptyScreen;
 import pl.piterpti.gui.screen.ScreenDefinition;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -19,9 +21,9 @@ public class Controller implements Runnable {
     private Logger logger = Logger.getLogger(this.getClass());
     private ApplicationContext context;
 
-    private  List<Class <? extends Flow>> registeredFlows;
-    private  ScreenDefinition screenDefinition;
-    private ConcurrentLinkedQueue<Long> actionsToDo = new ConcurrentLinkedQueue<>();
+    private List<Class <? extends Flow>> registeredFlows;
+    private ScreenDefinition screenDefinition;
+    private ConcurrentLinkedQueue<Action> actionsToDo = new ConcurrentLinkedQueue<>();
     private Flow currentFlow;
     private Object lock = new Object();
 
@@ -78,7 +80,14 @@ public class Controller implements Runnable {
     }
 
     public void doAction(long actionId) {
-        actionsToDo.add(actionId);
+        actionsToDo.add(new Action(actionId));
+        synchronized (lock) {
+            lock.notify();
+        }
+    }
+
+    public void doAction(long actionId, FlowArgs args) {
+        actionsToDo.add(new Action(actionId, args));
         synchronized (lock) {
             lock.notify();
         }

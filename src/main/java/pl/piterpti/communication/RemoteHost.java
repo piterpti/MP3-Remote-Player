@@ -16,7 +16,6 @@ public class RemoteHost extends Thread {
     private Logger logger = Logger.getLogger(this.getClass());
 
     private Object connectionLock = new Object();
-    private Object lock = new Object();
 
     private boolean clientConnected = false;
 
@@ -79,17 +78,6 @@ public class RemoteHost extends Thread {
                 }
                 out.close();
 
-
-//                while (isClientConnected()) {
-//                    synchronized (lock) {
-//                        receivedMsg = (Message) streamIn.readObject();
-//                        logger.info("Received from host: " + receivedMsg.toString());
-//                    }
-//
-//                    receivedMsg = null;
-//                }
-
-
             } catch (Exception e) {
                 logger.warn("Communication problem: " + e.getMessage());
                 e.printStackTrace();
@@ -97,6 +85,7 @@ public class RemoteHost extends Thread {
 
         }
 
+        close();
         logger.info("Host thread ended work");
     }
 
