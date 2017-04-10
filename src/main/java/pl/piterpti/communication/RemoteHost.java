@@ -1,6 +1,10 @@
 package pl.piterpti.communication;
 
 import org.apache.log4j.Logger;
+import pl.piterpti.controller.Actions;
+import pl.piterpti.controller.Controller;
+import pl.piterpti.flow.FlowArgs;
+import pl.piterpti.flow.Mp3PlayerFlow;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -30,16 +34,22 @@ public class RemoteHost extends Thread {
 
     private boolean appClosing = false;
 
+    private Controller controller;
+
     public RemoteHost(int aPort) {
         port = aPort;
         configureServer();
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     private void configureServer() {
 
         try {
             hostServer = new ServerSocket(port);
-            hostServer.setSoTimeout(1000 * 600);
+//            hostServer.setSoTimeout(1000 * 600);
         } catch (IOException e) {
             logger.warn("Error when creating server:" + e.toString());
         }
@@ -66,7 +76,8 @@ public class RemoteHost extends Thread {
 
                 Path p = Paths.get(path);
                 String file = p.getFileName().toString();
-                FileOutputStream out = new FileOutputStream(file);
+                file = "mp3/" + file;
+                FileOutputStream out = new FileOutputStream( file);
 
 
 
@@ -77,6 +88,8 @@ public class RemoteHost extends Thread {
                     out.write(buffer, 0, count);
                 }
                 out.close();
+
+                playMP3(file);
 
             } catch (Exception e) {
                 logger.warn("Communication problem: " + e.getMessage());
@@ -125,5 +138,10 @@ public class RemoteHost extends Thread {
 
     public void setAppClosing(boolean appClosing) {
         this.appClosing = appClosing;
+    }
+
+    private void playMP3(String name) {
+        FlowArgs args = new FlowArgs(Mp3PlayerFlow.ARG_HOST_SONG, name);
+        controller.doAction(Actions.CUSTOM_MUSIC_BY_NAME, args);
     }
 }

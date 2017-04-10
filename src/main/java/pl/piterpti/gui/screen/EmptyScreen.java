@@ -10,7 +10,7 @@ import java.util.LinkedList;
 /**
  * Created by piter on 09.04.17.
  */
-public abstract class EmptyScreen extends JFrame {
+public abstract class EmptyScreen extends JFrame implements Screen {
 
     protected Controller controller;
 

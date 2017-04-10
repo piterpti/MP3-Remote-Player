@@ -2,6 +2,7 @@ package pl.piterpti.flow;
 
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Action;
+import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
 import pl.piterpti.gui.screen.EmptyScreen;
 
@@ -32,10 +33,13 @@ public abstract class Flow implements Runnable {
         this.screen = screen;
         this.screen.setVisible(true);
         controller = screen.getController();
+        init();
     }
 
+    protected abstract void init();
+
     public void handleAction(Action action) {
-        logger.info("Action " + action.getId());
+        logger.info("Action " + action.getId() + " - " + Actions.resolveActionName(action.getId()));
     }
 
 }

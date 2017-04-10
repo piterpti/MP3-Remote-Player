@@ -3,8 +3,11 @@ package pl.piterpti.flow;
 import pl.piterpti.communication.RemoteHost;
 import pl.piterpti.controller.Action;
 import pl.piterpti.controller.Actions;
+import pl.piterpti.controller.Controller;
 import pl.piterpti.gui.screen.EmptyScreen;
 import pl.piterpti.tools.Mp3Player;
+import pl.piterpti.tools.Mp3PlayerJACO;
+import pl.piterpti.tools.Mp3PlayerJLayer;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -17,6 +20,7 @@ public class Mp3PlayerFlow extends Flow {
     public static final String ARG_SONG_LIST = "songList";
     public static final String ARG_CURRENT_SONG = "currentSong";
     public static final String ARG_CUSTOM_SONG = "customSong";
+    public static final String ARG_HOST_SONG = "hostSong";
 
     @SuppressWarnings("unused")
     public static String FLOW_NAME = "Mp3PlayerFlow";
@@ -26,14 +30,14 @@ public class Mp3PlayerFlow extends Flow {
     public Mp3PlayerFlow() {
         super();
         SCREEN_NAME = "MainScreen";
-        mp3Player = new Mp3Player();
         host = new RemoteHost(8888);
+        host.setDaemon(true);
         host.start();
     }
 
     @Override
     public void run() {
-        logger.info("Run method");
+
     }
 
     @Override
@@ -56,7 +60,14 @@ public class Mp3PlayerFlow extends Flow {
         } else if (actionId == Actions.CUSTOM_MUSIC) {
             int currSong = (int) action.getArg().getArgs().get(ARG_CUSTOM_SONG);
             mp3Player.setCurrentSong(currSong);
+            mp3Player.stop();
             mp3Player.play(true);
+        } else if (actionId == Actions.CUSTOM_MUSIC_BY_NAME) {
+            String path = (String) action.getArg().getArgs().get(ARG_HOST_SONG);
+            mp3Player.add(new File(path));
+            mp3Player.setCurrentSong(mp3Player.getSongsFileList().size() - 1);
+            controller.doAction(Actions.STOP_MUSIC);
+            controller.doAction(Actions.PLAY_MUSIC);
         }
     }
 
@@ -75,13 +86,19 @@ public class Mp3PlayerFlow extends Flow {
         screen.refresh(args);
     }
 
+    @Override
+    protected void init() {
+        mp3Player = new Mp3PlayerJLayer(controller);
+        host.setController(controller);
+    }
+
     private void loadMP3Files() {
         LinkedList<File> mp3Files = new LinkedList<>();
         listFiles("mp3", mp3Files);
 
         for (File mp3: mp3Files) {
             logger.info("Adding: " + mp3.getName());
-            mp3Player.addFile(mp3);
+            mp3Player.add(mp3);
         }
     }
 
@@ -96,4 +113,6 @@ public class Mp3PlayerFlow extends Flow {
             }
         }
     }
+
+
 }
