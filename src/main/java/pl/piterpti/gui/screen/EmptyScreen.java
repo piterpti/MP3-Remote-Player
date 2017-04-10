@@ -1,14 +1,16 @@
 package pl.piterpti.gui.screen;
 
 import pl.piterpti.controller.Controller;
+import pl.piterpti.flow.FlowArgs;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.LinkedList;
 
 /**
  * Created by piter on 09.04.17.
  */
-public abstract class EmptyScreen extends JFrame implements Screen {
+public abstract class EmptyScreen extends JFrame {
 
     protected Controller controller;
 
@@ -31,11 +33,18 @@ public abstract class EmptyScreen extends JFrame implements Screen {
         mainPanel.setPreferredSize(DEFAULT_DIM);
         mainPanel.setLayout(new BorderLayout());
         add(mainPanel);
-        setContentPane(mainPanel);
         pack();
     }
 
     public void setController(Controller controller) {
         this.controller = controller;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public void refresh(FlowArgs args) {
+
     }
 }

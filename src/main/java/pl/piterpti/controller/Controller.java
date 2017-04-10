@@ -82,7 +82,6 @@ public class Controller implements Runnable {
         synchronized (lock) {
             lock.notify();
         }
-
     }
 
     @Override
