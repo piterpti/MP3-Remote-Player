@@ -3,10 +3,8 @@ package pl.piterpti.flow;
 import pl.piterpti.communication.RemoteHost;
 import pl.piterpti.controller.Action;
 import pl.piterpti.controller.Actions;
-import pl.piterpti.controller.Controller;
 import pl.piterpti.gui.screen.EmptyScreen;
 import pl.piterpti.tools.Mp3Player;
-import pl.piterpti.tools.Mp3PlayerJACO;
 import pl.piterpti.tools.Mp3PlayerJLayer;
 
 import java.io.File;
@@ -21,6 +19,8 @@ public class Mp3PlayerFlow extends Flow {
     public static final String ARG_CURRENT_SONG = "currentSong";
     public static final String ARG_CUSTOM_SONG = "customSong";
     public static final String ARG_HOST_SONG = "hostSong";
+    public static final String ARG_ADD_SONG = "addSong";
+    public static final String ARG_PLAY_SONG_BY_NAME = "playSongByName";
 
     @SuppressWarnings("unused")
     public static String FLOW_NAME = "Mp3PlayerFlow";
@@ -32,7 +32,6 @@ public class Mp3PlayerFlow extends Flow {
         SCREEN_NAME = "MainScreen";
         host = new RemoteHost(8888);
         host.setDaemon(true);
-        host.start();
     }
 
     @Override
@@ -68,6 +67,15 @@ public class Mp3PlayerFlow extends Flow {
             mp3Player.setCurrentSong(mp3Player.getSongsFileList().size() - 1);
             controller.doAction(Actions.STOP_MUSIC);
             controller.doAction(Actions.PLAY_MUSIC);
+            FlowArgs args = new FlowArgs();
+            args.addArg(ARG_ADD_SONG, path);
+            screen.refresh(args);
+        } else if (actionId == Actions.PLAY_MUSIC_BY_NAME) {
+            String name = (String) action.getArg().getArgs().get(ARG_PLAY_SONG_BY_NAME);
+            mp3Player.findSongByName(name);
+            mp3Player.stop();
+            mp3Player.play(true);
+            refreshList();
         }
     }
 
@@ -90,6 +98,8 @@ public class Mp3PlayerFlow extends Flow {
     protected void init() {
         mp3Player = new Mp3PlayerJLayer(controller);
         host.setController(controller);
+        host.setSongsList(mp3Player.getSongsFileList());
+        host.start();
     }
 
     private void loadMP3Files() {

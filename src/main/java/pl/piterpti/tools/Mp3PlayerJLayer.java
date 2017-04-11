@@ -39,6 +39,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
                 player = new PausablePlayer(fis, lockMP3);
                 player.play();
                 playing = true;
+                paused = false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,10 +66,10 @@ public class Mp3PlayerJLayer implements Mp3Player{
     }
 
     public void next() {
-        if (currentSong >= songsFileList.size() - 1) {
-            currentSong = 0;
+        if (getCurrentSong() >= songsFileList.size() - 1) {
+            setCurrentSong(0);
         } else {
-            currentSong++;
+            incCurrentSong();;
         }
 
         stop();
@@ -78,10 +79,10 @@ public class Mp3PlayerJLayer implements Mp3Player{
     }
 
     public void prev() {
-        if (currentSong <= 0) {
-            currentSong = songsFileList.size() - 1;
+        if (getCurrentSong() <= 0) {
+            setCurrentSong(songsFileList.size() - 1);
         } else {
-            currentSong--;
+            decCurrentSong();
         }
         stop();
         if (!paused) {
@@ -98,19 +99,38 @@ public class Mp3PlayerJLayer implements Mp3Player{
         }
     }
 
+    public synchronized void incCurrentSong() {
+        currentSong++;
+    }
+
+    public synchronized void decCurrentSong() {
+        currentSong--;
+    }
+
     @Override
-    public void setCurrentSong(int currentSong) {
+    public synchronized void setCurrentSong(int currentSong) {
         this.currentSong = currentSong;
     }
 
     @Override
-    public int getCurrentSong() {
+    public synchronized int getCurrentSong() {
         return currentSong;
     }
 
     @Override
     public ArrayList<File> getSongsFileList() {
         return songsFileList;
+    }
+
+    @Override
+    public void findSongByName(String song) {
+        song = song.replaceAll("mp3/", "");
+        for (int i = 0; i < songsFileList.size(); i++) {
+            if (songsFileList.get(i).getName().equals(song)) {
+                setCurrentSong(i);
+                return;
+            }
+        }
     }
 
     class EndSongListener implements Runnable {

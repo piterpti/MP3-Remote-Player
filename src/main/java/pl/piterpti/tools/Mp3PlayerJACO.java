@@ -84,6 +84,11 @@ public class Mp3PlayerJACO implements Mp3Player {
         return songsFileList;
     }
 
+    @Override
+    public void findSongByName(String song) {
+
+    }
+
     public int getCurrentSong() {
         return currentSong;
     }

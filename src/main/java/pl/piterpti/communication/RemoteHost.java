@@ -11,11 +11,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  * Created by piter on 10.04.17.
  */
 public class RemoteHost extends Thread {
+
+    public static final String MSG = "MSG:";
+    public static final String MSG_PLAY = "PLAY";
+    public static final String MSG_PAUSE = "PAUSE";
+    public static final String MSG_STOP = "STOP";
+    public static final String MSG_NEXT = "NEXT";
+    public static final String MSG_PREV = "PREV";
+    public static final String MSG_EXIST = "EXIST";
+    public static final String MSG_SEND_MP3 = "SEND_MP3";
 
     private Logger logger = Logger.getLogger(this.getClass());
 
@@ -28,9 +38,9 @@ public class RemoteHost extends Thread {
     private Socket socket;
 
     private ObjectInputStream streamIn = null;
-    private ObjectOutputStream streamOut;
 
-    private Message receivedMsg;
+    private ArrayList<File> songsList;
+
 
     private boolean appClosing = false;
 
@@ -49,7 +59,6 @@ public class RemoteHost extends Thread {
 
         try {
             hostServer = new ServerSocket(port);
-//            hostServer.setSoTimeout(1000 * 600);
         } catch (IOException e) {
             logger.warn("Error when creating server:" + e.toString());
         }
@@ -66,36 +75,46 @@ public class RemoteHost extends Thread {
             try {
                 socket = hostServer.accept();
                 setClientConnected(true);
-//                streamOut  = new ObjectOutputStream(socket.getOutputStream());
-//                streamIn = new ObjectInputStream((socket.getInputStream()));
 
                 InputStream is = socket.getInputStream();
                 ObjectInputStream ois = new ObjectInputStream(is);
                 String path = ois.readUTF();
-                logger.info(path);
+                logger.info("Received: " + path);
+                if (path.startsWith(MSG)) { // control instruction
+                    doAction(path);
+                } else { // file retrieve
+                    Path p = Paths.get(path);
+                    String file = p.getFileName().toString();
+                    file = "mp3/" + file;
 
-                Path p = Paths.get(path);
-                String file = p.getFileName().toString();
-                file = "mp3/" + file;
-                FileOutputStream out = new FileOutputStream( file);
+                    OutputStream os = socket.getOutputStream();
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(os);
 
+                    if (checkMp3Exist(file)) { // mp3 exist
+                        playExistMP3(file);
+                        objectOutputStream.writeUTF(MSG + MSG_EXIST);
+                        objectOutputStream.flush();
+                    } else {
+                        objectOutputStream.writeUTF(MSG + MSG_SEND_MP3);
+                        objectOutputStream.flush();
+                        FileOutputStream out = new FileOutputStream(file);
 
+                        int count;
+                        byte[] buffer = new byte[4096];
+                        while ((count = is.read(buffer)) > 0) {
+                            out.write(buffer, 0, count);
+                        }
+                        out.close();
 
-                int count;
-                byte[] buffer = new byte[4096]; // or 4096, or more
-                while ((count = is.read(buffer)) > 0)
-                {
-                    out.write(buffer, 0, count);
+                        playMP3(file);
+                    }
+                    objectOutputStream.close();
                 }
-                out.close();
-
-                playMP3(file);
 
             } catch (Exception e) {
                 logger.warn("Communication problem: " + e.getMessage());
                 e.printStackTrace();
             }
-
         }
 
         close();
@@ -116,9 +135,6 @@ public class RemoteHost extends Thread {
                 streamIn.close();
             }
 
-            if (streamOut != null) {
-                streamOut.close();
-            }
         } catch (IOException e) {
             logger.warn("Problem with closing resources");
         }
@@ -143,5 +159,48 @@ public class RemoteHost extends Thread {
     private void playMP3(String name) {
         FlowArgs args = new FlowArgs(Mp3PlayerFlow.ARG_HOST_SONG, name);
         controller.doAction(Actions.CUSTOM_MUSIC_BY_NAME, args);
+    }
+
+    private void playExistMP3(String name) {
+        FlowArgs args = new FlowArgs(Mp3PlayerFlow.ARG_PLAY_SONG_BY_NAME, name);
+        controller.doAction(Actions.PLAY_MUSIC_BY_NAME, args);
+    }
+
+    private void doAction(String msg) {
+        if (msg.indexOf(":") > -1) {
+            String msgContent = msg.split(":")[1];
+
+            switch (msgContent) {
+                case MSG_PLAY:
+                    controller.doAction(Actions.PLAY_MUSIC);
+                    break;
+                case MSG_PAUSE:
+                    controller.doAction(Actions.PAUSE_MUSIC);
+                    break;
+                case MSG_NEXT:
+                    controller.doAction(Actions.NEXT_MUSIC);
+                    break;
+                case MSG_PREV:
+                    controller.doAction(Actions.PREV_MUSIC);
+                    break;
+                case MSG_STOP:
+                    controller.doAction(Actions.STOP_MUSIC);
+                    break;
+            }
+        }
+    }
+
+    private boolean checkMp3Exist(String fileName) {
+        fileName = fileName.replaceAll("mp3/", "");
+        for (File f : songsList) {
+            if (f.getName().equals(fileName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setSongsList(ArrayList<File> songsList) {
+        this.songsList = songsList;
     }
 }

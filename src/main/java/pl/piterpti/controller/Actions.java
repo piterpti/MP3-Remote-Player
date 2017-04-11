@@ -14,6 +14,7 @@ public class Actions {
     public static final long PREV_MUSIC = 5L;
     public static final long CUSTOM_MUSIC = 6L;
     public static final long CUSTOM_MUSIC_BY_NAME = 7L;
+    public static final long PLAY_MUSIC_BY_NAME = 8L;
 
 
     public static HashMap<Long, String> actionNames = new HashMap<>();
@@ -26,6 +27,7 @@ public class Actions {
         actionNames.put(PREV_MUSIC, "prevMusic");
         actionNames.put(CUSTOM_MUSIC, "customMusic");
         actionNames.put(CUSTOM_MUSIC_BY_NAME, "customMusicByName");
+        actionNames.put(PLAY_MUSIC_BY_NAME, "playMusicByName");
     }
 
     public static String resolveActionName(long actionId) {

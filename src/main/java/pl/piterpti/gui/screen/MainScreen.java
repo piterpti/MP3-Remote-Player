@@ -12,9 +12,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import static pl.piterpti.flow.Mp3PlayerFlow.ARG_CURRENT_SONG;
-import static pl.piterpti.flow.Mp3PlayerFlow.ARG_CUSTOM_SONG;
-import static pl.piterpti.flow.Mp3PlayerFlow.ARG_SONG_LIST;
+import static pl.piterpti.flow.Mp3PlayerFlow.*;
 
 /**
  * Created by piter on 09.04.17.
@@ -30,6 +28,8 @@ public class MainScreen extends EmptyScreen {
     private JList<String> songsJList;
     private DefaultListModel<String> dlm;
     private ArrayList<File> songsList;
+
+    private int currentNum = 1;
 
 
     public MainScreen(String s) {
@@ -114,14 +114,22 @@ public class MainScreen extends EmptyScreen {
             songsJList.addSelectionInterval(currentSong, currentSong);
             songsJList.ensureIndexIsVisible(songsJList.getSelectedIndex());
         }
+
+        String song = (String) args.getArgs().get(ARG_ADD_SONG);
+        if (song != null) {
+            songsJList.clearSelection();
+            dlm.addElement(currentNum++ + " " + song.replaceAll("mp3/", ""));
+            songsJList.addSelectionInterval(dlm.getSize(), dlm.getSize());
+            songsJList.ensureIndexIsVisible(songsJList.getSelectedIndex());
+        }
+
     }
 
     private void refreshSongList() {
         dlm.clear();
 
-        int counter = 1;
         for (File f : songsList) {
-            dlm.addElement(counter++ + ". " + f.getName());
+            dlm.addElement(currentNum++ + ". " + f.getName());
         }
     }
 
