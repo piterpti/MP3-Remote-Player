@@ -18,14 +18,17 @@ import java.util.ArrayList;
  */
 public class RemoteHost extends Thread {
 
+    /**
+     * MSG CONSTANT
+     */
     public static final String MSG = "MSG:";
-    public static final String MSG_PLAY = "PLAY";
-    public static final String MSG_PAUSE = "PAUSE";
-    public static final String MSG_STOP = "STOP";
-    public static final String MSG_NEXT = "NEXT";
-    public static final String MSG_PREV = "PREV";
-    public static final String MSG_EXIST = "EXIST";
-    public static final String MSG_SEND_MP3 = "SEND_MP3";
+    public static final String MSG_PLAY = MSG + "PLAY";
+    public static final String MSG_PAUSE = MSG + "PAUSE";
+    public static final String MSG_STOP = MSG + "STOP";
+    public static final String MSG_NEXT = MSG + "NEXT";
+    public static final String MSG_PREV = MSG + "PREV";
+    public static final String MSG_EXIST = MSG + "EXIST";
+    public static final String MSG_SEND_MP3 = MSG + "SEND_MP3";
 
     private Logger logger = Logger.getLogger(this.getClass());
 
@@ -92,10 +95,10 @@ public class RemoteHost extends Thread {
 
                     if (checkMp3Exist(file)) { // mp3 exist
                         playExistMP3(file);
-                        objectOutputStream.writeUTF(MSG + MSG_EXIST);
+                        objectOutputStream.writeUTF(MSG_EXIST);
                         objectOutputStream.flush();
                     } else {
-                        objectOutputStream.writeUTF(MSG + MSG_SEND_MP3);
+                        objectOutputStream.writeUTF(MSG_SEND_MP3);
                         objectOutputStream.flush();
                         FileOutputStream out = new FileOutputStream(file);
 
@@ -167,26 +170,24 @@ public class RemoteHost extends Thread {
     }
 
     private void doAction(String msg) {
-        if (msg.indexOf(":") > -1) {
-            String msgContent = msg.split(":")[1];
-
-            switch (msgContent) {
-                case MSG_PLAY:
-                    controller.doAction(Actions.PLAY_MUSIC);
-                    break;
-                case MSG_PAUSE:
-                    controller.doAction(Actions.PAUSE_MUSIC);
-                    break;
-                case MSG_NEXT:
-                    controller.doAction(Actions.NEXT_MUSIC);
-                    break;
-                case MSG_PREV:
-                    controller.doAction(Actions.PREV_MUSIC);
-                    break;
-                case MSG_STOP:
-                    controller.doAction(Actions.STOP_MUSIC);
-                    break;
-            }
+        switch (msg) {
+            case MSG_PLAY:
+                controller.doAction(Actions.PLAY_MUSIC);
+                break;
+            case MSG_PAUSE:
+                controller.doAction(Actions.PAUSE_MUSIC);
+                break;
+            case MSG_NEXT:
+                controller.doAction(Actions.NEXT_MUSIC);
+                break;
+            case MSG_PREV:
+                controller.doAction(Actions.PREV_MUSIC);
+                break;
+            case MSG_STOP:
+                controller.doAction(Actions.STOP_MUSIC);
+                break;
+            default:
+                logger.warn("Unhandled msg from client: " + msg);
         }
     }
 

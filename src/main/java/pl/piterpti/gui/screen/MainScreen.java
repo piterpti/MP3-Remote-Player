@@ -43,6 +43,7 @@ public class MainScreen extends EmptyScreen {
     }
 
     private void initUI() {
+        setResizable(true);
         mainPanel.setLayout(new GridLayout(1, 2));
         JPanel btnPanel = new JPanel(new GridLayout(3, 2));
         JPanel listPanel = new JPanel(new BorderLayout());

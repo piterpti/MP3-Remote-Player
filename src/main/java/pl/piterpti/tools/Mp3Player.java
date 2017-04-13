@@ -20,7 +20,7 @@ public interface Mp3Player {
     void stop();
 
     /**
-     * Pause current played mp3
+     * Pause current playing mp3
      */
     void pause();
 
