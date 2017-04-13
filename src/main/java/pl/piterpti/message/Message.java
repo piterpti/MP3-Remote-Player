@@ -1,4 +1,4 @@
-package message.msg;
+package pl.piterpti.message;
 
 /**
  * Created by piter on 13.04.17.

@@ -1,4 +1,4 @@
-package message.msg;
+package pl.piterpti.message;
 
 import java.io.Serializable;
 

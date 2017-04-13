@@ -2,8 +2,12 @@
   <artifact type="jar" name="PlayerMsg">
     <output-path>$PROJECT_DIR$/out/artifacts/PlayerMsg</output-path>
     <root id="archive" name="PlayerMsg.jar">
-      <element id="directory" name="message">
-        <element id="dir-copy" path="$PROJECT_DIR$/target/classes/message" />
+      <element id="directory" name="pl">
+        <element id="directory" name="piterpti">
+          <element id="directory" name="message">
+            <element id="dir-copy" path="$PROJECT_DIR$/target/classes/pl/piterpti/message" />
+          </element>
+        </element>
       </element>
     </root>
   </artifact>

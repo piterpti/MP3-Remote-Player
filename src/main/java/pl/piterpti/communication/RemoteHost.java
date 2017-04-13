@@ -1,10 +1,14 @@
 package pl.piterpti.communication;
 
+import pl.piterpti.message.Message;
+import pl.piterpti.message.MessagePlayerControl;
+import pl.piterpti.message.MessageSendFile;
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
 import pl.piterpti.flow.FlowArgs;
 import pl.piterpti.flow.Mp3PlayerFlow;
+import pl.piterpti.message.Messages;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -13,28 +17,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-/**
- * Created by piter on 10.04.17.
- */
+import static pl.piterpti.message.Messages.*;
+
 public class RemoteHost extends Thread {
 
-    /**
-     * MSG CONSTANT
-     */
-    public static final String MSG = "MSG:";
-    public static final String MSG_PLAY = MSG + "PLAY";
-    public static final String MSG_PAUSE = MSG + "PAUSE";
-    public static final String MSG_STOP = MSG + "STOP";
-    public static final String MSG_NEXT = MSG + "NEXT";
-    public static final String MSG_PREV = MSG + "PREV";
-    public static final String MSG_EXIST = MSG + "EXIST";
-    public static final String MSG_SEND_MP3 = MSG + "SEND_MP3";
-
     private Logger logger = Logger.getLogger(this.getClass());
-
-    private Object connectionLock = new Object();
-
-    private boolean clientConnected = false;
 
     private final int port;
     private ServerSocket hostServer;
@@ -77,43 +64,36 @@ public class RemoteHost extends Thread {
         while (true && !appClosing) {
             try {
                 socket = hostServer.accept();
-                setClientConnected(true);
 
                 InputStream is = socket.getInputStream();
                 ObjectInputStream ois = new ObjectInputStream(is);
-                String path = ois.readUTF();
-                logger.info("Received: " + path);
-                if (path.startsWith(MSG)) { // control instruction
-                    doAction(path);
-                } else { // file retrieve
-                    Path p = Paths.get(path);
-                    String file = p.getFileName().toString();
-                    file = "mp3/" + file;
+                Object recObj = ois.readObject();
 
-                    OutputStream os = socket.getOutputStream();
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(os);
+                if (recObj instanceof Message) {
 
-                    if (checkMp3Exist(file)) { // mp3 exist
-                        playExistMP3(file);
-                        objectOutputStream.writeUTF(MSG_EXIST);
-                        objectOutputStream.flush();
-                    } else {
-                        objectOutputStream.writeUTF(MSG_SEND_MP3);
-                        objectOutputStream.flush();
-                        FileOutputStream out = new FileOutputStream(file);
+                    Message recMsg = (Message) recObj;
+                    switch (recMsg.getMessageType()) {
+                        case SEND_FILE:
+                            MessageSendFile msf = (MessageSendFile) recMsg;
+                            retrieveFile(is, msf);
+                            break;
 
-                        int count;
-                        byte[] buffer = new byte[4096];
-                        while ((count = is.read(buffer)) > 0) {
-                            out.write(buffer, 0, count);
-                        }
-                        out.close();
+                        case PLAYER_CONTROL:
+                            MessagePlayerControl mpc = (MessagePlayerControl) recMsg;
+                            doAction(mpc.getMsg());
+                            break;
 
-                        playMP3(file);
+                        default:
+                            logger.error("Unknown message type: " + recMsg.getMessageType().toString());
+                            break;
                     }
-                    objectOutputStream.close();
+                } else {
+                    logger.warn("Unknown message: " + recObj.toString());
                 }
 
+                is.close();
+                ois.close();
+                socket.close();
             } catch (Exception e) {
                 logger.warn("Communication problem: " + e.getMessage());
                 e.printStackTrace();
@@ -124,7 +104,38 @@ public class RemoteHost extends Thread {
         logger.info("Host thread ended work");
     }
 
-    public void close()  {
+    private void retrieveFile(InputStream is, MessageSendFile msf) throws Exception {
+        Path p = Paths.get(msf.getFileName());
+        String file = p.getFileName().toString();
+        file = "mp3/" + file;
+
+        OutputStream os = socket.getOutputStream();
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(os);
+
+        if (checkMp3Exist(file)) { // mp3 exist
+            playExistMP3(file);
+            objectOutputStream.writeObject(new MessagePlayerControl(Messages.MSG_EXIST));
+            objectOutputStream.flush();
+        } else {
+            objectOutputStream.writeObject(new MessagePlayerControl(Messages.MSG_SEND_MP3));
+            objectOutputStream.flush();
+            FileOutputStream out = new FileOutputStream(file);
+
+            int count;
+            byte[] buffer = new byte[4096];
+            while ((count = is.read(buffer)) > 0) {
+                out.write(buffer, 0, count);
+            }
+
+            out.close();
+
+            playMP3(file);
+        }
+        objectOutputStream.close();
+        os.close();
+    }
+
+    private void close()  {
         logger.info("Closing connection");
         try {
             if (socket != null) {
@@ -143,18 +154,7 @@ public class RemoteHost extends Thread {
         }
     }
 
-    private void setClientConnected(boolean aClientConnected) {
-        synchronized (connectionLock) {
-            clientConnected = aClientConnected;
-        }
-    }
-
-    public boolean isClientConnected() {
-        synchronized (connectionLock) {
-            return clientConnected;
-        }
-    }
-
+    @SuppressWarnings("unused")
     public void setAppClosing(boolean appClosing) {
         this.appClosing = appClosing;
     }

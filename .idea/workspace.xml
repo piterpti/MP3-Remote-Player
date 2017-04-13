@@ -6,16 +6,15 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2e859ce-acd6-47e9-8df1-4239e2ace0b8" name="Default" comment="Adding working playlist + play music from Android device (dedicated app)">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/PlayerMsg.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/message/msg/Message.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/message/msg/MessagePlayerControl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/message/msg/MessageSendFile.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/message/msg/MessageType.java" />
+    <list default="true" id="f2e859ce-acd6-47e9-8df1-4239e2ace0b8" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/pl/piterpti/message/Messages.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/message/msg/Message.java" afterPath="$PROJECT_DIR$/src/main/java/pl/piterpti/message/Message.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/message/msg/MessagePlayerControl.java" afterPath="$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessagePlayerControl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/message/msg/MessageSendFile.java" afterPath="$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageSendFile.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/message/msg/MessageType.java" afterPath="$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/PlayerMsg.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/PlayerMsg.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/piterpti/communication/RemoteHost.java" afterPath="$PROJECT_DIR$/src/main/java/pl/piterpti/communication/RemoteHost.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/piterpti/gui/screen/MainScreen.java" afterPath="$PROJECT_DIR$/src/main/java/pl/piterpti/gui/screen/MainScreen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3Player.java" afterPath="$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3Player.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -32,18 +31,18 @@
       <file leaf-file-name="Mp3PlayerFlow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/flow/Mp3PlayerFlow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+            <state relative-caret-position="16">
+              <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Flow.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/flow/Flow.java">
+      <file leaf-file-name="Mp3PlayerJLayer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3PlayerJLayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="40" column="16" lean-forward="false" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
+            <state relative-caret-position="120">
+              <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -64,20 +63,21 @@
       <file leaf-file-name="RemoteHost.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/communication/RemoteHost.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="559">
-              <caret line="180" column="27" lean-forward="false" selection-start-line="180" selection-start-column="27" selection-end-line="180" selection-end-column="27" />
+            <state relative-caret-position="188">
+              <caret line="118" column="16" lean-forward="true" selection-start-line="118" selection-start-column="16" selection-end-line="118" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4554#4581#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/controller/Controller.java">
+      <file leaf-file-name="Messages.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/Messages.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1200">
-              <caret line="88" column="16" lean-forward="false" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
+            <state relative-caret-position="80">
+              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -94,19 +94,19 @@
         </entry>
       </file>
       <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/message/msg/Message.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/Message.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="96">
-              <caret line="6" column="25" lean-forward="false" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+              <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="MessagePlayerControl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/message/msg/MessagePlayerControl.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessagePlayerControl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
+            <state relative-caret-position="111">
               <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
               <folding />
             </state>
@@ -114,20 +114,20 @@
         </entry>
       </file>
       <file leaf-file-name="MessageSendFile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/message/msg/MessageSendFile.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageSendFile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="9" column="0" lean-forward="false" selection-start-line="8" selection-start-column="3" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="128">
+              <caret line="10" column="29" lean-forward="false" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="MessageType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/message/msg/MessageType.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+            <state relative-caret-position="224">
+              <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -139,9 +139,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="spring-beans.schema" />
-        <option value="Class" />
         <option value="Interface" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -187,13 +187,15 @@
         <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3PlayerJLayer.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/flow/Mp3PlayerFlow.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3Player.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/communication/RemoteHost.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/gui/screen/MainScreen.java" />
         <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/message/META-INF/MANIFEST.MF" />
         <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/message/Message.java" />
-        <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageType.java" />
         <option value="$PROJECT_DIR$/src/main/java/message/message/MessageType.java" />
         <option value="$PROJECT_DIR$/src/main/java/message/msg/MessageType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/message/msg/Messages.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageType.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageSendFile.java" />
+        <option value="$PROJECT_DIR$/src/main/java/pl/piterpti/communication/RemoteHost.java" />
       </list>
     </option>
   </component>
@@ -306,6 +308,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="tools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RemotePlayer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RemotePlayer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="piterpti" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="message" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -469,28 +501,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RemotePlayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RemotePlayer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -508,7 +518,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/target/classes/message" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/target/classes/pl/piterpti/message" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -969,7 +979,7 @@
       <workItem from="1491988527470" duration="5005000" />
       <workItem from="1492007381260" duration="1468000" />
       <workItem from="1492080799248" duration="5788000" />
-      <workItem from="1492092170737" duration="17000" />
+      <workItem from="1492092170737" duration="2858000" />
     </task>
     <task id="LOCAL-00001" summary="Improvment on flows controller. Added external lib to play MP3 files (jaco Mp3 player)">
       <created>1491748867780</created>
@@ -1013,11 +1023,18 @@
       <option name="project" value="LOCAL" />
       <updated>1491929743467</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Adding message class to communication instead of Strings">
+      <created>1492092225848</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1492092225848</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65786000" />
+    <option name="totallyTimeSpent" value="68627000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1368" height="743" extended-state="6" />
@@ -1026,13 +1043,14 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1050,7 +1068,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1099,28 +1116,17 @@
     <MESSAGE value="Handle with received mp3 files via socket." />
     <MESSAGE value="Adding some new funtions to mp3 player." />
     <MESSAGE value="Adding working playlist + play music from Android device (dedicated app)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding working playlist + play music from Android device (dedicated app)" />
+    <MESSAGE value="Adding message class to communication instead of Strings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding message class to communication instead of Strings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3PlayerJLayer.java</url>
-          <line>30</line>
-          <properties />
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pl/piterpti/flow/Mp3PlayerFlow.java</url>
           <line>72</line>
           <properties />
           <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pl/piterpti/flow/Mp3PlayerFlow.java</url>
-          <line>43</line>
-          <properties />
-          <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3PlayerJLayer.java</url>
@@ -1130,12 +1136,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/pl/piterpti/communication/RemoteHost.java</url>
-          <line>89</line>
+          <line>69</line>
           <properties />
-          <option name="timeStamp" value="19" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="20" />
+      <option name="time" value="21" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1144,14 +1150,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/controller/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="45" column="30" lean-forward="false" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3PlayerJACO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -1394,14 +1392,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3PlayerJLayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#252#253#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1429,14 +1422,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/flow/Mp3PlayerFlow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3Player.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
@@ -1456,44 +1441,69 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/META-INF/MANIFEST.MF" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/message/msg/Message.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/flow/Mp3PlayerFlow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="6" column="25" lean-forward="false" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+        <state relative-caret-position="16">
+          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/message/msg/MessagePlayerControl.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/tools/Mp3PlayerJLayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
+        <state relative-caret-position="120">
+          <caret line="26" column="5" lean-forward="true" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="17" lean-forward="false" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessagePlayerControl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
           <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/message/msg/MessageSendFile.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="8" selection-start-column="3" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="224">
+          <caret line="14" column="1" lean-forward="true" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/message/msg/MessageType.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/MessageSendFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        <state relative-caret-position="128">
+          <caret line="10" column="29" lean-forward="false" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/message/Messages.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/pl/piterpti/communication/RemoteHost.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="559">
-          <caret line="180" column="27" lean-forward="false" selection-start-line="180" selection-start-column="27" selection-end-line="180" selection-end-column="27" />
+        <state relative-caret-position="188">
+          <caret line="118" column="16" lean-forward="true" selection-start-line="118" selection-start-column="16" selection-end-line="118" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4554#4581#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1505,10 +1515,10 @@
         <settings>
           <artifact-editor>
             <show-content>
-              <type id="jpa-descriptors" />
+              <type id="artifact" />
               <type id="library" />
               <type id="javaee-facet-resources" />
-              <type id="artifact" />
+              <type id="jpa-descriptors" />
             </show-content>
           </artifact-editor>
           <last-edited>PlayerMsg</last-edited>
