@@ -28,6 +28,10 @@ public class Mp3PlayerJLayer implements Mp3Player{
 
     @Override
     public void play(boolean start) {
+        if (getSongsFileList().size() < 1) {
+            logger.info("There is no mp3's");
+            return;
+        }
         if (player != null && paused) {
             player.resume();
             paused = false;
@@ -69,7 +73,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
         if (getCurrentSong() >= songsFileList.size() - 1) {
             setCurrentSong(0);
         } else {
-            incCurrentSong();;
+            incCurrentSong();
         }
 
         stop();
@@ -99,11 +103,11 @@ public class Mp3PlayerJLayer implements Mp3Player{
         }
     }
 
-    public synchronized void incCurrentSong() {
+    private synchronized void incCurrentSong() {
         currentSong++;
     }
 
-    public synchronized void decCurrentSong() {
+    private synchronized void decCurrentSong() {
         currentSong--;
     }
 
