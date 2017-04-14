@@ -4,6 +4,7 @@ import pl.piterpti.communication.RemoteHost;
 import pl.piterpti.controller.Action;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.gui.screen.EmptyScreen;
+import pl.piterpti.gui.screen.componenet.Audio;
 import pl.piterpti.tools.Mp3Player;
 import pl.piterpti.tools.Mp3PlayerJLayer;
 
@@ -21,6 +22,7 @@ public class Mp3PlayerFlow extends Flow {
     public static final String ARG_HOST_SONG = "hostSong";
     public static final String ARG_ADD_SONG = "addSong";
     public static final String ARG_PLAY_SONG_BY_NAME = "playSongByName";
+    public static final String ARG_VOLUME = "volume";
 
     @SuppressWarnings("unused")
     public static String FLOW_NAME = "Mp3PlayerFlow";
@@ -76,6 +78,12 @@ public class Mp3PlayerFlow extends Flow {
             mp3Player.stop();
             mp3Player.play(true);
             refreshList();
+        } else if (actionId == Actions.SET_VOLUME) {
+            int val = (int) action.getArg().getArgs().get(ARG_VOLUME);
+            float valF = val;
+            valF /= 100;
+            logger.info("Volume set to " + valF);
+            Audio.setMasterOutputVolume(valF);
         }
     }
 

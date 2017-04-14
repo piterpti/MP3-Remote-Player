@@ -3,13 +3,16 @@ package pl.piterpti.gui.screen;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
 import pl.piterpti.flow.FlowArgs;
+import pl.piterpti.flow.Mp3PlayerFlow;
+import pl.piterpti.gui.screen.componenet.Audio;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static pl.piterpti.flow.Mp3PlayerFlow.*;
@@ -53,6 +56,8 @@ public class MainScreen extends EmptyScreen {
         nextBtn = new JButton("Next");
         prevBtn = new JButton("Prev");
 
+        JSlider volumeSlider = new JSlider(1, 100);
+
         JScrollPane scrollPane = new JScrollPane();
         dlm = new DefaultListModel<>();
         songsJList = new JList<>(dlm);
@@ -64,7 +69,7 @@ public class MainScreen extends EmptyScreen {
         btnPanel.add(pauseBtn);
 
         btnPanel.add(prevBtn);
-        btnPanel.add(new JLabel());
+        btnPanel.add(volumeSlider);
         btnPanel.add(nextBtn);
 
         listPanel.add(scrollPane);
@@ -101,6 +106,9 @@ public class MainScreen extends EmptyScreen {
                 }
             }
         });
+
+        volumeSlider.addChangeListener(changeEvent ->
+                controller.doAction(Actions.SET_VOLUME, new FlowArgs(Mp3PlayerFlow.ARG_VOLUME, volumeSlider.getValue())));
     }
 
     @Override
