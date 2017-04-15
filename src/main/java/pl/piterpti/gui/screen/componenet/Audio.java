@@ -14,19 +14,11 @@
  */
 package pl.piterpti.gui.screen.componenet;
 
+import javax.sound.sampled.*;
+import javax.sound.sampled.Control.Type;
+import javax.sound.sampled.Mixer.Info;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.BooleanControl;
-import javax.sound.sampled.CompoundControl;
-import javax.sound.sampled.Control;
-import javax.sound.sampled.Control.Type;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.Mixer.Info;
 
 public class Audio {
 
@@ -35,7 +27,7 @@ public class Audio {
         System.out.println(getMasterOutputVolume());
     }
 
-    public static void setMasterOutputVolume(float value) {
+    public synchronized static void setMasterOutputVolume(float value) {
         if (value < 0 || value > 1)
             throw new IllegalArgumentException(
                     "Volume can only be set to a value from 0 to 1. Given value is illegal: " + value);
@@ -52,7 +44,7 @@ public class Audio {
         }
     }
 
-    public static Float getMasterOutputVolume() {
+    public synchronized static Float getMasterOutputVolume() {
         Line line = getMasterOutputLine();
         if (line == null) return null;
         boolean opened = open(line);

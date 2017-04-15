@@ -12,6 +12,8 @@ public class MessagePlayerControl implements Message, Serializable {
 
     private String msg;
 
+    private FlowArgs args;
+
     @Override
     public MessageType getMessageType() {
         return MessageType.PLAYER_CONTROL;
@@ -23,5 +25,13 @@ public class MessagePlayerControl implements Message, Serializable {
 
     public String getMsg() {
         return msg;
+    }
+
+    public FlowArgs getArgs() {
+        return args;
+    }
+
+    public void setArgs(FlowArgs args) {
+        this.args = args;
     }
 }

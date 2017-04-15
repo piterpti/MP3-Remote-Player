@@ -1,5 +1,6 @@
 package pl.piterpti.flow;
 
+import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Action;
 import pl.piterpti.controller.Actions;
@@ -12,27 +13,23 @@ import pl.piterpti.gui.screen.EmptyScreen;
 public abstract class Flow implements Runnable {
 
     protected Logger logger = Logger.getLogger(this.getClass());
-    protected boolean runFlow = true;
     public String SCREEN_NAME = "EmptyScreen";
     protected Controller controller;
-    protected EmptyScreen screen;
 
     public Flow() {
 
     }
 
+    @Override
     public void run() {
 
     }
 
-    public void runScreen(EmptyScreen screen) {
-        if (SCREEN_NAME == null) {
-            throw new RuntimeException("Null screen name value");
+    public void runScreen(Stage stage) {
+        if (stage == null) {
+            throw new RuntimeException("Stage can not be null!");
         }
 
-        this.screen = screen;
-        this.screen.setVisible(true);
-        controller = screen.getController();
         init();
     }
 
@@ -42,4 +39,7 @@ public abstract class Flow implements Runnable {
         logger.info("Action " + action.getId() + " - " + Actions.resolveActionName(action.getId()));
     }
 
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
 }

@@ -1,14 +1,10 @@
 package pl.piterpti.communication;
 
-import pl.piterpti.message.Message;
-import pl.piterpti.message.MessagePlayerControl;
-import pl.piterpti.message.MessageSendFile;
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
-import pl.piterpti.flow.FlowArgs;
 import pl.piterpti.flow.Mp3PlayerFlow;
-import pl.piterpti.message.Messages;
+import pl.piterpti.message.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -80,7 +76,7 @@ public class RemoteHost extends Thread {
 
                         case PLAYER_CONTROL:
                             MessagePlayerControl mpc = (MessagePlayerControl) recMsg;
-                            doAction(mpc.getMsg());
+                            doAction(mpc.getMsg(), mpc.getArgs());
                             break;
 
                         default:
@@ -169,7 +165,7 @@ public class RemoteHost extends Thread {
         controller.doAction(Actions.PLAY_MUSIC_BY_NAME, args);
     }
 
-    private void doAction(String msg) {
+    private void doAction(String msg, FlowArgs args) {
         switch (msg) {
             case MSG_PLAY:
                 controller.doAction(Actions.PLAY_MUSIC);
@@ -186,6 +182,10 @@ public class RemoteHost extends Thread {
             case MSG_STOP:
                 controller.doAction(Actions.STOP_MUSIC);
                 break;
+            case MSG_SET_VOLUME:
+                logger.info("Doing action set volume");
+                controller.doAction(Actions.SET_VOLUME_REMOTE, args);
+                break;
             default:
                 logger.warn("Unhandled msg from client: " + msg);
         }
@@ -198,6 +198,7 @@ public class RemoteHost extends Thread {
                 return true;
             }
         }
+
         return false;
     }
 

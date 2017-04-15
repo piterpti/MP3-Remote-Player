@@ -1,11 +1,10 @@
 package pl.piterpti.gui.screen;
 
 import pl.piterpti.controller.Controller;
-import pl.piterpti.flow.FlowArgs;
+import pl.piterpti.message.FlowArgs;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.LinkedList;
 
 /**
  * Created by piter on 09.04.17.

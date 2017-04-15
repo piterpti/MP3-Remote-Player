@@ -2,13 +2,10 @@ package pl.piterpti.gui.screen;
 
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
-import pl.piterpti.flow.FlowArgs;
 import pl.piterpti.flow.Mp3PlayerFlow;
-import pl.piterpti.gui.screen.componenet.Audio;
+import pl.piterpti.message.FlowArgs;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -107,8 +104,12 @@ public class MainScreen extends EmptyScreen {
             }
         });
 
-        volumeSlider.addChangeListener(changeEvent ->
-                controller.doAction(Actions.SET_VOLUME, new FlowArgs(Mp3PlayerFlow.ARG_VOLUME, volumeSlider.getValue())));
+        volumeSlider.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                controller.doAction(Actions.SET_VOLUME, new FlowArgs(Mp3PlayerFlow.ARG_VOLUME, volumeSlider.getValue()));
+            }
+        });
     }
 
     @Override

@@ -4,7 +4,7 @@ package pl.piterpti.controller;
  * Created by piter on 10.04.17.
  */
 
-import pl.piterpti.flow.FlowArgs;
+import pl.piterpti.message.FlowArgs;
 
 public class Action {
 

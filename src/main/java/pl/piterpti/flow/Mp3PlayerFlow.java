@@ -1,12 +1,15 @@
 package pl.piterpti.flow;
 
+import javafx.stage.Stage;
 import pl.piterpti.communication.RemoteHost;
 import pl.piterpti.controller.Action;
 import pl.piterpti.controller.Actions;
-import pl.piterpti.gui.screen.EmptyScreen;
 import pl.piterpti.gui.screen.componenet.Audio;
+import pl.piterpti.message.FlowArgs;
 import pl.piterpti.tools.Mp3Player;
 import pl.piterpti.tools.Mp3PlayerJLayer;
+import pl.piterpti.view.controller.Mp3PlayerController;
+import pl.piterpti.view.controller.OpenScene;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -24,6 +27,7 @@ public class Mp3PlayerFlow extends Flow {
     public static final String ARG_PLAY_SONG_BY_NAME = "playSongByName";
     public static final String ARG_VOLUME = "volume";
 
+    private Mp3PlayerController viewController;
     @SuppressWarnings("unused")
     public static String FLOW_NAME = "Mp3PlayerFlow";
     private Mp3Player mp3Player;
@@ -71,7 +75,7 @@ public class Mp3PlayerFlow extends Flow {
             controller.doAction(Actions.PLAY_MUSIC);
             FlowArgs args = new FlowArgs();
             args.addArg(ARG_ADD_SONG, path);
-            screen.refresh(args);
+            viewController.refresh(args);
         } else if (actionId == Actions.PLAY_MUSIC_BY_NAME) {
             String name = (String) action.getArg().getArgs().get(ARG_PLAY_SONG_BY_NAME);
             mp3Player.findSongByName(name);
@@ -79,27 +83,54 @@ public class Mp3PlayerFlow extends Flow {
             mp3Player.play(true);
             refreshList();
         } else if (actionId == Actions.SET_VOLUME) {
-            int val = (int) action.getArg().getArgs().get(ARG_VOLUME);
-            float valF = val;
-            valF /= 100;
-            logger.info("Volume set to " + valF);
-            Audio.setMasterOutputVolume(valF);
+            setVolume(action);
+        } else if (actionId == Actions.SET_VOLUME_REMOTE) {
+            setVolumeRemote(action);
         }
+    }
+
+    private void setVolume(Action action) {
+        int val = (int) action.getArg().getArgs().get(ARG_VOLUME);
+        float valF = val;
+        valF /= 100;
+        logger.info("Volume set to " + valF);
+        Audio.setMasterOutputVolume(valF);
+    }
+
+    private void setVolumeRemote(Action action) {
+        int val = (int) action.getArg().getArgs().get(ARG_VOLUME);
+        float valF = val;
+        valF /= 100;
+        float currentVolume = Audio.getMasterOutputVolume();
+        currentVolume += valF;
+        currentVolume = currentVolume > 1 ? 1 : currentVolume;
+        currentVolume = currentVolume < 0 ? 0 : currentVolume;
+        Audio.setMasterOutputVolume(currentVolume);
     }
 
     private void refreshList() {
         FlowArgs args = new FlowArgs();
         args.addArg(ARG_CURRENT_SONG, mp3Player.getCurrentSong());
-        screen.refresh(args);
+        viewController.refresh(args);
     }
 
     @Override
-    public void runScreen(EmptyScreen screen) {
-        super.runScreen(screen);
-        FlowArgs args = new FlowArgs();
+    public void runScreen(Stage stage) {
+        super.runScreen(stage);
         loadMP3Files();
-        args.addArg(ARG_SONG_LIST, mp3Player.getSongsFileList());
-        screen.refresh(args);
+        OpenScene scene = new OpenScene();
+        try {
+            viewController = (Mp3PlayerController) scene.start(stage, "Mp3Player.fxml");
+            viewController.setController(controller);
+            viewController.refreshPlaylist(mp3Player.getSongsFileList());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        FlowArgs args = new FlowArgs();
+
+//        args.addArg(ARG_SONG_LIST, mp3Player.getSongsFileList());
+//        screen.refresh(args);
     }
 
     @Override

@@ -1,16 +1,14 @@
 package pl.piterpti.controller;
 
+import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import pl.piterpti.flow.Flow;
-import pl.piterpti.flow.FlowArgs;
 import pl.piterpti.gui.screen.EmptyScreen;
-import pl.piterpti.gui.screen.ScreenDefinition;
+import pl.piterpti.message.FlowArgs;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -22,16 +20,14 @@ public class Controller implements Runnable {
     private ApplicationContext context;
 
     private List<Class <? extends Flow>> registeredFlows;
-    private ScreenDefinition screenDefinition;
     private ConcurrentLinkedQueue<Action> actionsToDo = new ConcurrentLinkedQueue<>();
     private Flow currentFlow;
     private Object lock = new Object();
+    private Stage stage;
 
     public Controller(List<Class <? extends Flow>> registeredFlows) {
         this.registeredFlows = registeredFlows;
-        screenDefinition = new ScreenDefinition();
         logRegisteredFlows();
-        logRegisteredScreen();
     }
 
     public void callFlow(Class <? extends Flow> flowClass) {
@@ -44,14 +40,10 @@ public class Controller implements Runnable {
             }
 
             currentFlow = context.getBean(flowName, flowClass);
-            EmptyScreen screen = (EmptyScreen) context.getBean(currentFlow.SCREEN_NAME);
-            if (currentFlow == null || screen == null) {
-                logger.error("Calling flow " + flowName + " error");
-                return;
-            }
-            screen.setController(this);
-            currentFlow.runScreen(screen);
+            currentFlow.setController(this);
+            currentFlow.runScreen(stage);
             Thread t = new Thread(currentFlow);
+            t.setName(currentFlow.SCREEN_NAME);
             t.start();
 
             logger.info("Starting flow " + flowName);
@@ -68,13 +60,6 @@ public class Controller implements Runnable {
         }
     }
 
-    private void logRegisteredScreen() {
-        logger.info("Registered screens:");
-        for (Map.Entry<String, Class<? extends EmptyScreen>> entry : screenDefinition.getScreens().entrySet()) {
-            logger.info(entry.getKey() + " - " + entry.getValue());
-        }
-    }
-
     public void setContext(ApplicationContext context) {
         this.context = context;
     }
@@ -82,15 +67,19 @@ public class Controller implements Runnable {
     public void doAction(long actionId) {
         actionsToDo.add(new Action(actionId));
         synchronized (lock) {
-            lock.notify();
+            lock.notifyAll();
         }
     }
 
     public void doAction(long actionId, FlowArgs args) {
         actionsToDo.add(new Action(actionId, args));
         synchronized (lock) {
-            lock.notify();
+            lock.notifyAll();
         }
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
     @Override
@@ -98,11 +87,16 @@ public class Controller implements Runnable {
         while (true) {
             while (!actionsToDo.isEmpty()) {
                 currentFlow.handleAction(actionsToDo.poll());
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    logger.error(e.getMessage());
+                }
             }
 
             synchronized (lock) {
                 try {
-                    lock.wait();
+                    lock.wait(100);
                 } catch (InterruptedException e) {
                     logger.error(e.getMessage());
                 }

@@ -1,11 +1,14 @@
-package pl.piterpti.flow;
+package pl.piterpti.message;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Created by piter on 10.04.17.
  */
-public class FlowArgs {
+public class FlowArgs implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private HashMap<String, Object> args = new HashMap<>();
 
