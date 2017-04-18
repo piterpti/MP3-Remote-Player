@@ -76,11 +76,13 @@ public class Mp3PlayerController extends MyController {
     }
 
     private void setButtonSize() {
-        playBtn.setMaxWidth(Double.MAX_VALUE);
-        stopBtn.setMaxWidth(Double.MAX_VALUE);
-        pauseBtn.setMaxWidth(Double.MAX_VALUE);
-        nextBtn.setMaxWidth(Double.MAX_VALUE);
-        prevBtn.setMaxWidth(Double.MAX_VALUE);
+        playBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        stopBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        pauseBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        nextBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        prevBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        playBtn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
     }
 
     public void refreshPlaylist(ArrayList<File> filePlaylist) {

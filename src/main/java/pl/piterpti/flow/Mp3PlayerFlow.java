@@ -1,6 +1,7 @@
 package pl.piterpti.flow;
 
 import javafx.stage.Stage;
+import pl.piterpti.communication.ConnectedHosts;
 import pl.piterpti.communication.RemoteHost;
 import pl.piterpti.controller.Action;
 import pl.piterpti.controller.Actions;
@@ -113,6 +114,7 @@ public class Mp3PlayerFlow extends Flow {
         FlowArgs args = new FlowArgs();
         args.addArg(ARG_CURRENT_SONG, mp3Player.getCurrentSong());
         viewController.refresh(args);
+        refreshPlaylist();
     }
 
     @Override
@@ -147,6 +149,8 @@ public class Mp3PlayerFlow extends Flow {
             logger.info("Adding: " + mp3.getName());
             mp3Player.add(mp3);
         }
+
+        refreshPlaylist();
     }
 
     private void listFiles(String directoryName, LinkedList<File> files) {
@@ -159,6 +163,14 @@ public class Mp3PlayerFlow extends Flow {
                 listFiles(file.getAbsolutePath(), files);
             }
         }
+    }
+
+    private void refreshPlaylist() {
+        Thread refresher = new Thread(new ConnectedHosts("192.168.0.100",
+                8889,mp3Player.getSongsFileList() ,mp3Player.getCurrentSong()));
+        refresher.setDaemon(true);
+        refresher.setName("PlaylistRefresher");
+        refresher.start();
     }
 
 

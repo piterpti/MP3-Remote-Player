@@ -23,6 +23,7 @@ public class Mp3PlayerFx implements Mp3Player {
     private boolean paused;
     private EndSongListener endSongListener;
     private double currentVolume = 1;
+    private boolean playing = false;
 
     public Mp3PlayerFx(Controller controller) {
         this.controller = controller;
@@ -31,6 +32,9 @@ public class Mp3PlayerFx implements Mp3Player {
 
     @Override
     public void play(boolean start) {
+        if (playing) {
+            return;
+        }
         if (!paused) {
             Media media = new Media(songsFileList.get(getCurrentSong()).getAbsoluteFile().toURI().toString());
             player = new MediaPlayer(media);
@@ -43,6 +47,7 @@ public class Mp3PlayerFx implements Mp3Player {
             player.setVolume(currentVolume);
             player.play();
         }
+        playing = true;
         paused = false;
     }
 
@@ -51,6 +56,8 @@ public class Mp3PlayerFx implements Mp3Player {
         if (player != null) {
             player.stop();
         }
+
+        playing = false;
     }
 
     @Override
@@ -59,6 +66,7 @@ public class Mp3PlayerFx implements Mp3Player {
             player.pause();
         }
         paused = true;
+        playing = false;
     }
 
     @Override

@@ -183,11 +183,14 @@ public class RemoteHost extends Thread {
                 controller.doAction(Actions.STOP_MUSIC);
                 break;
             case MSG_SET_VOLUME:
-                logger.info("Doing action set volume");
                 controller.doAction(Actions.SET_VOLUME_REMOTE, args);
+                break;
+            case MSG_CURRENT_SONG:
+                controller.doAction(Actions.PLAY_MUSIC_BY_NAME, args);
                 break;
             default:
                 logger.warn("Unhandled msg from client: " + msg);
+                break;
         }
     }
 

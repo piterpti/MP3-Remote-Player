@@ -16,4 +16,5 @@ public class Messages {
     public static final String MSG_EXIST = MSG + "EXIST";
     public static final String MSG_SEND_MP3 = MSG + "SEND_MP3";
     public static final String MSG_SET_VOLUME = MSG + "SET_VOLUME";
+    public static final String MSG_CURRENT_SONG = MSG + "CURRENT_SONG";
 }
