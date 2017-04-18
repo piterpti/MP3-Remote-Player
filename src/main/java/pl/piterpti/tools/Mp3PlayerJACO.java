@@ -89,6 +89,16 @@ public class Mp3PlayerJACO implements Mp3Player {
 
     }
 
+    @Override
+    public void setVolume(double volume) {
+
+    }
+
+    @Override
+    public double getVolume() {
+        return 0;
+    }
+
     public int getCurrentSong() {
         return currentSong;
     }

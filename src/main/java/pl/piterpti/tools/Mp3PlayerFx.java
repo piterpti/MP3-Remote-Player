@@ -1,62 +1,55 @@
 package pl.piterpti.tools;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
-public class Mp3PlayerJLayer implements Mp3Player{
+/**
+ * Created by piter on 16.04.17.
+ */
+public class Mp3PlayerFx implements Mp3Player {
 
-    private PausablePlayer player;
+    private MediaPlayer player;
+
     private Logger logger = Logger.getLogger(this.getClass());
     private ArrayList<File> songsFileList = new ArrayList<>();
     private int currentSong = 0;
-    private boolean paused;
-    private boolean playing;
-    private Object lockMP3 = new Object();
     private Controller controller;
+    private boolean paused;
+    private EndSongListener endSongListener;
+    private double currentVolume = 1;
 
-    public Mp3PlayerJLayer(Controller controller) {
-        Thread listener = new Thread(new EndSongListener());
-        listener.setDaemon(true);
-        listener.start();
+    public Mp3PlayerFx(Controller controller) {
         this.controller = controller;
     }
 
+
     @Override
     public void play(boolean start) {
-        if (getSongsFileList().size() < 1) {
-            logger.info("There is no mp3's");
-            return;
+        if (!paused) {
+            Media media = new Media(songsFileList.get(getCurrentSong()).getAbsoluteFile().toURI().toString());
+            player = new MediaPlayer(media);
+            endSongListener = new EndSongListener();
+            player.setOnEndOfMedia(endSongListener);
+            player.setVolume(currentVolume);
+            player.play();
+
+        } else {
+            player.setVolume(currentVolume);
+            player.play();
         }
-        if (player != null && paused) {
-            player.resume();
-            paused = false;
-            return;
-        }
-        try {
-            if (!playing) {
-                FileInputStream fis = new FileInputStream(songsFileList.get(currentSong));
-                player = new PausablePlayer(fis, lockMP3);
-                player.play();
-                playing = true;
-                paused = false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        paused = false;
     }
 
     @Override
     public void stop() {
         if (player != null) {
-            player.pause();
-            player.close();
-            player = null;
-            playing = false;
+            player.stop();
         }
     }
 
@@ -64,11 +57,11 @@ public class Mp3PlayerJLayer implements Mp3Player{
     public void pause() {
         if (player != null) {
             player.pause();
-            paused = true;
-            playing = false;
         }
+        paused = true;
     }
 
+    @Override
     public void next() {
         if (getCurrentSong() >= songsFileList.size() - 1) {
             setCurrentSong(0);
@@ -77,11 +70,10 @@ public class Mp3PlayerJLayer implements Mp3Player{
         }
 
         stop();
-        if (!paused) {
-            play(true);
-        }
+        play(true);
     }
 
+    @Override
     public void prev() {
         if (getCurrentSong() <= 0) {
             setCurrentSong(songsFileList.size() - 1);
@@ -89,9 +81,19 @@ public class Mp3PlayerJLayer implements Mp3Player{
             decCurrentSong();
         }
         stop();
-        if (!paused) {
-            play(true);
+        play(true);
+    }
+
+    public void setVolume(double volume) {
+        currentVolume = volume;
+        if (player != null) {
+            player.setVolume(currentVolume);
         }
+    }
+
+    @Override
+    public double getVolume() {
+        return currentVolume;
     }
 
     @Override
@@ -137,33 +139,11 @@ public class Mp3PlayerJLayer implements Mp3Player{
         }
     }
 
-    @Override
-    public void setVolume(double volume) {
-
-    }
-
-    @Override
-    public double getVolume() {
-        return 0;
-    }
-
     class EndSongListener implements Runnable {
 
         @Override
         public void run() {
-            while (true) {
-                synchronized (lockMP3) {
-                    try {
-                        lockMP3.wait();
-                        controller.doAction(Actions.NEXT_MUSIC);
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            controller.doAction(Actions.NEXT_MUSIC);
         }
     }
-
-
 }

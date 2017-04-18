@@ -1,12 +1,16 @@
 package pl.piterpti.view.controller;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import pl.piterpti.controller.Actions;
+import pl.piterpti.flow.Mp3PlayerFlow;
 import pl.piterpti.message.FlowArgs;
 
 import java.io.File;
@@ -37,10 +41,10 @@ public class Mp3PlayerController extends MyController {
     private Button nextBtn;
 
     @FXML
-    private Button customBtn;
+    private ListView<String> playlistListView;
 
     @FXML
-    private ListView<String> playlistListView;
+    private Slider volumeSlider;
 
     private ObservableList<String> playlist;
 
@@ -64,6 +68,11 @@ public class Mp3PlayerController extends MyController {
                         new FlowArgs(ARG_CUSTOM_SONG, playlistListView.getFocusModel().getFocusedIndex()));
             }
         });
+
+        volumeSlider.setMin(0);
+        volumeSlider.setMax(100);
+        volumeSlider.setValue(100);
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> controller.doAction(Actions.SET_VOLUME, new FlowArgs(Mp3PlayerFlow.ARG_VOLUME, newValue.intValue())));
     }
 
     private void setButtonSize() {
@@ -72,7 +81,6 @@ public class Mp3PlayerController extends MyController {
         pauseBtn.setMaxWidth(Double.MAX_VALUE);
         nextBtn.setMaxWidth(Double.MAX_VALUE);
         prevBtn.setMaxWidth(Double.MAX_VALUE);
-        customBtn.setMaxWidth(Double.MAX_VALUE);
     }
 
     public void refreshPlaylist(ArrayList<File> filePlaylist) {
@@ -102,11 +110,14 @@ public class Mp3PlayerController extends MyController {
             Platform.runLater(() -> {
                 playlistListView.getSelectionModel().clearSelection();
                 String title = song.replaceAll("mp3/", "");
-                System.out.println(title);
                 playlist.add(title);
                 playlistListView.getSelectionModel().selectLast();
                 playlistListView.scrollTo(playlist.size());
             });
         }
+    }
+
+    public void setVolumeSliderValue(double newVal) {
+        Platform.runLater(() -> volumeSlider.setValue(newVal));
     }
 }

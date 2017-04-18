@@ -64,4 +64,16 @@ public interface Mp3Player {
      */
     void findSongByName(String song);
 
+    /**
+     * Set player volume
+     * @param volume volume
+     */
+    void setVolume(double volume);
+
+    /**
+     *
+     * @return current volume value
+     */
+    double getVolume();
+
 }

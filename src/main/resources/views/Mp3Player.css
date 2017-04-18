@@ -1,0 +1,15 @@
+#mainPane {
+    -fx-background-color: #ce5310;
+}
+
+#playlistListView .list-cell:even{
+    -fx-background-color: #facafa;
+}
+
+#playlistListView .list-cell:odd{
+    -fx-background-color: #866c86;
+}
+
+.button {
+    -fx-padding: 10;
+}

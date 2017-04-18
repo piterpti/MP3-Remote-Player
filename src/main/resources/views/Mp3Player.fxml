@@ -7,9 +7,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.piterpti.view.controller.Mp3PlayerController">
+<?import javafx.scene.control.Slider?>
+<AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@Mp3Player.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.piterpti.view.controller.Mp3PlayerController">
    <children>
-      <GridPane prefHeight="400.0" prefWidth="400.0">
+      <GridPane prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
@@ -36,8 +37,9 @@
                   <Button fx:id="stopBtn" mnemonicParsing="false" text="Stop" GridPane.rowIndex="1" />
                   <Button fx:id="prevBtn" mnemonicParsing="false" text="Prev" GridPane.rowIndex="2" />
                   <Button fx:id="pauseBtn" mnemonicParsing="false" text="Pause" GridPane.columnIndex="1" />
-                  <Button fx:id="customBtn" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <!--<Button fx:id="customBtn" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
                   <Button fx:id="nextBtn" mnemonicParsing="false" text="Next" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                   <Slider fx:id="volumeSlider" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                </children>
             </GridPane>
             <ListView fx:id="playlistListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />

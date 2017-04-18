@@ -4,10 +4,9 @@ import javafx.stage.Stage;
 import pl.piterpti.communication.RemoteHost;
 import pl.piterpti.controller.Action;
 import pl.piterpti.controller.Actions;
-import pl.piterpti.gui.screen.componenet.Audio;
 import pl.piterpti.message.FlowArgs;
 import pl.piterpti.tools.Mp3Player;
-import pl.piterpti.tools.Mp3PlayerJLayer;
+import pl.piterpti.tools.Mp3PlayerFx;
 import pl.piterpti.view.controller.Mp3PlayerController;
 import pl.piterpti.view.controller.OpenScene;
 
@@ -94,18 +93,20 @@ public class Mp3PlayerFlow extends Flow {
         float valF = val;
         valF /= 100;
         logger.info("Volume set to " + valF);
-        Audio.setMasterOutputVolume(valF);
+        mp3Player.setVolume(valF);
     }
 
     private void setVolumeRemote(Action action) {
         int val = (int) action.getArg().getArgs().get(ARG_VOLUME);
         float valF = val;
         valF /= 100;
-        float currentVolume = Audio.getMasterOutputVolume();
+        double currentVolume = mp3Player.getVolume();
+        System.out.println(currentVolume);
         currentVolume += valF;
         currentVolume = currentVolume > 1 ? 1 : currentVolume;
         currentVolume = currentVolume < 0 ? 0 : currentVolume;
-        Audio.setMasterOutputVolume(currentVolume);
+        mp3Player.setVolume(currentVolume);
+        viewController.setVolumeSliderValue(currentVolume * 100);
     }
 
     private void refreshList() {
@@ -126,16 +127,13 @@ public class Mp3PlayerFlow extends Flow {
 
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("Problem with starting screen: " + e.getMessage());
         }
-//        FlowArgs args = new FlowArgs();
-
-//        args.addArg(ARG_SONG_LIST, mp3Player.getSongsFileList());
-//        screen.refresh(args);
     }
 
     @Override
     protected void init() {
-        mp3Player = new Mp3PlayerJLayer(controller);
+        mp3Player = new Mp3PlayerFx(controller);
         host.setController(controller);
         host.setSongsList(mp3Player.getSongsFileList());
         host.start();

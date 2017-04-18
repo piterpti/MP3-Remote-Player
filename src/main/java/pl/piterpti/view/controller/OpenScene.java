@@ -14,7 +14,7 @@ public class OpenScene {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("views/" + view));
 //        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/" + view));
-        Scene scene =  new Scene(loader.load(), 400 ,400);
+        Scene scene =  new Scene(loader.load(), 600 ,400);
         window.setScene(scene);
         window.show();
         return loader.getController();
