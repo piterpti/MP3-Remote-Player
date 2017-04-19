@@ -82,13 +82,21 @@ public class Controller implements Runnable {
         this.stage = stage;
     }
 
+    private void closeApp() {
+        System.exit(0);
+    }
+
     @Override
     public void run() {
         while (true) {
             while (!actionsToDo.isEmpty()) {
-                currentFlow.handleAction(actionsToDo.poll());
+                Action currentAction = actionsToDo.poll();
+                if (currentAction.getId() == Actions.APP_CLOSED) {
+                    closeApp();
+                }
+                currentFlow.handleAction(currentAction);
                 try {
-                    Thread.sleep(5);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     logger.error(e.getMessage());
                 }

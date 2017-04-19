@@ -17,4 +17,6 @@ public class Messages {
     public static final String MSG_SEND_MP3 = MSG + "SEND_MP3";
     public static final String MSG_SET_VOLUME = MSG + "SET_VOLUME";
     public static final String MSG_CURRENT_SONG = MSG + "CURRENT_SONG";
+    public static final String MSG_REFRESH_PLAYLIST = MSG + "REFRESH_PLAYLIST";
+    public static final String MSG_CLOSE_APP = MSG + "CLOSE_APP";
 }

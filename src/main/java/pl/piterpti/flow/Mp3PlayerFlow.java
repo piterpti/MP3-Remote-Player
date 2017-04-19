@@ -67,6 +67,7 @@ public class Mp3PlayerFlow extends Flow {
             mp3Player.setCurrentSong(currSong);
             mp3Player.stop();
             mp3Player.play(true);
+            refreshList();
         } else if (actionId == Actions.CUSTOM_MUSIC_BY_NAME) {
             String path = (String) action.getArg().getArgs().get(ARG_HOST_SONG);
             mp3Player.add(new File(path));
@@ -75,7 +76,8 @@ public class Mp3PlayerFlow extends Flow {
             controller.doAction(Actions.PLAY_MUSIC);
             FlowArgs args = new FlowArgs();
             args.addArg(ARG_ADD_SONG, path);
-            viewController.refresh(args);
+            viewController.refreshPlaylist(mp3Player.getSongsFileList());
+            refreshList();
         } else if (actionId == Actions.PLAY_MUSIC_BY_NAME) {
             String name = (String) action.getArg().getArgs().get(ARG_PLAY_SONG_BY_NAME);
             if (name == null) {
@@ -93,6 +95,8 @@ public class Mp3PlayerFlow extends Flow {
             setVolume(action);
         } else if (actionId == Actions.SET_VOLUME_REMOTE) {
             setVolumeRemote(action);
+        } else if (actionId == Actions.REFRESH_PLAYLIST) {
+            refreshList();
         }
     }
 
@@ -109,7 +113,6 @@ public class Mp3PlayerFlow extends Flow {
         float valF = val;
         valF /= 100;
         double currentVolume = mp3Player.getVolume();
-        System.out.println(currentVolume);
         currentVolume += valF;
         currentVolume = currentVolume > 1 ? 1 : currentVolume;
         currentVolume = currentVolume < 0 ? 0 : currentVolume;

@@ -27,7 +27,6 @@ public class RemoteHost extends Thread {
 
     private ArrayList<File> songsList;
 
-
     private boolean appClosing = false;
 
     private Controller controller;
@@ -187,6 +186,12 @@ public class RemoteHost extends Thread {
                 break;
             case MSG_CURRENT_SONG:
                 controller.doAction(Actions.PLAY_MUSIC_BY_NAME, args);
+                break;
+            case MSG_REFRESH_PLAYLIST:
+                controller.doAction(Actions.REFRESH_PLAYLIST);
+                break;
+            case MSG_CLOSE_APP:
+                controller.doAction(Actions.APP_CLOSED);
                 break;
             default:
                 logger.warn("Unhandled msg from client: " + msg);
