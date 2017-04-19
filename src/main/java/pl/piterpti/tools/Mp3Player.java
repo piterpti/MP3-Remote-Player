@@ -62,7 +62,7 @@ public interface Mp3Player {
      * Set current song to filename
      * @param song song filename
      */
-    void findSongByName(String song);
+    boolean findSongByName(String song);
 
     /**
      * Set player volume

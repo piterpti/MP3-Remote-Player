@@ -78,9 +78,16 @@ public class Mp3PlayerFlow extends Flow {
             viewController.refresh(args);
         } else if (actionId == Actions.PLAY_MUSIC_BY_NAME) {
             String name = (String) action.getArg().getArgs().get(ARG_PLAY_SONG_BY_NAME);
-            mp3Player.findSongByName(name);
-            mp3Player.stop();
-            mp3Player.play(true);
+            if (name == null) {
+                logger.info("Can not find null msg");
+            } else {
+                if (mp3Player.findSongByName(name)) {
+                    mp3Player.stop();
+                    mp3Player.play(true);
+                } else {
+                    logger.info("Cant find song: " + name);
+                }
+            }
             refreshList();
         } else if (actionId == Actions.SET_VOLUME) {
             setVolume(action);

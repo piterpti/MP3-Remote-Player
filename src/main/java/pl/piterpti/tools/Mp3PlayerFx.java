@@ -137,14 +137,15 @@ public class Mp3PlayerFx implements Mp3Player {
     }
 
     @Override
-    public void findSongByName(String song) {
+    public boolean findSongByName(String song) {
         song = song.replaceAll("mp3/", "");
         for (int i = 0; i < songsFileList.size(); i++) {
             if (songsFileList.get(i).getName().equals(song)) {
                 setCurrentSong(i);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     class EndSongListener implements Runnable {
