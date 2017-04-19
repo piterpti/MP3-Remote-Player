@@ -3,7 +3,7 @@ package pl.piterpti.view.controller;
 import pl.piterpti.controller.Controller;
 
 /**
- * Created by piter on 15.04.17.
+ * Controller contains flow controller
  */
 public abstract class MyController {
 

@@ -3,6 +3,9 @@ package pl.piterpti.message;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Message to send playlist to remote device
+ */
 public class MessagePlaylist implements Message, Serializable {
 
     private static final long serialVersionUID = 1L;

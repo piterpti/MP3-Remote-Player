@@ -4,7 +4,6 @@ import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import pl.piterpti.flow.Flow;
-import pl.piterpti.gui.screen.EmptyScreen;
 import pl.piterpti.message.FlowArgs;
 
 import java.lang.reflect.Field;
@@ -22,7 +21,7 @@ public class Controller implements Runnable {
     private List<Class <? extends Flow>> registeredFlows;
     private ConcurrentLinkedQueue<Action> actionsToDo = new ConcurrentLinkedQueue<>();
     private Flow currentFlow;
-    private Object lock = new Object();
+    private final Object lock = new Object();
     private Stage stage;
 
     public Controller(List<Class <? extends Flow>> registeredFlows) {
@@ -83,6 +82,7 @@ public class Controller implements Runnable {
     }
 
     private void closeApp() {
+        currentFlow.closeFlow();
         System.exit(0);
     }
 

@@ -1,21 +1,20 @@
 package pl.piterpti.controller;
 
-/**
- * Created by piter on 10.04.17.
- */
-
 import pl.piterpti.message.FlowArgs;
 
+/**
+ * Action definition
+ */
 public class Action {
 
     private long id;
     private FlowArgs arg;
 
-    public Action(long id) {
+    Action(long id) {
         this.id = id;
     }
 
-    public Action(long id, FlowArgs arg) {
+    Action(long id, FlowArgs arg) {
         this.id = id;
         this.arg = arg;
     }

@@ -4,15 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by piter on 10.04.17.
+ * Mp3 player basic functionality
  */
 public interface Mp3Player {
 
     /**
      * Play current mp3
-     * @param start
      */
-    void play(boolean start);
+    void play();
 
     /**
      * Stop playing mp3

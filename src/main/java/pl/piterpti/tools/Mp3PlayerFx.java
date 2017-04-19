@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Created by piter on 16.04.17.
+ * Mp3 player based on JavaFX (MediaPlayer)
  */
 public class Mp3PlayerFx implements Mp3Player {
 
@@ -31,7 +31,7 @@ public class Mp3PlayerFx implements Mp3Player {
 
 
     @Override
-    public void play(boolean start) {
+    public void play() {
         if (playing) {
             return;
         }
@@ -78,7 +78,7 @@ public class Mp3PlayerFx implements Mp3Player {
         }
 
         stop();
-        play(true);
+        play();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Mp3PlayerFx implements Mp3Player {
             decCurrentSong();
         }
         stop();
-        play(true);
+        play();
     }
 
     public void setVolume(double volume) {

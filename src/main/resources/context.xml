@@ -16,11 +16,4 @@
     </bean>
 
 
-    <!-- SCREENS -->
-    <bean id="MainScreen" class="pl.piterpti.gui.screen.MainScreen">
-        <constructor-arg>
-            <value>Remote MP3 Player</value>
-        </constructor-arg>
-    </bean>
-
 </beans>

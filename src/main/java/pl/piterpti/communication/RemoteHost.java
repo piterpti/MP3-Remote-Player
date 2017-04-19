@@ -56,7 +56,7 @@ public class RemoteHost extends Thread {
             return;
         }
 
-        while (true && !appClosing) {
+        while (!appClosing) {
             try {
                 socket = hostServer.accept();
 
@@ -150,8 +150,8 @@ public class RemoteHost extends Thread {
     }
 
     @SuppressWarnings("unused")
-    public void setAppClosing(boolean appClosing) {
-        this.appClosing = appClosing;
+    public void setAppClosing() {
+        this.appClosing = true;
     }
 
     private void playMP3(String name) {

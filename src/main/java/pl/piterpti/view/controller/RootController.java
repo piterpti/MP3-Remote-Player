@@ -3,11 +3,12 @@ package pl.piterpti.view.controller;
 import javafx.fxml.FXML;
 
 /**
- * Created by piter on 15.04.17.
+ * Default controller
  */
 public class RootController {
 
     @FXML
+    @SuppressWarnings("unused")
     private void initialize() {
 
     }

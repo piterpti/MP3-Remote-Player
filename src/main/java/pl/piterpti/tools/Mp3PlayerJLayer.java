@@ -27,7 +27,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
     }
 
     @Override
-    public void play(boolean start) {
+    public void play() {
         if (getSongsFileList().size() < 1) {
             logger.info("There is no mp3's");
             return;
@@ -78,7 +78,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
 
         stop();
         if (!paused) {
-            play(true);
+            play();
         }
     }
 
@@ -90,7 +90,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
         }
         stop();
         if (!paused) {
-            play(true);
+            play();
         }
     }
 

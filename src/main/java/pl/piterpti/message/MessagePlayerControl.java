@@ -3,9 +3,8 @@ package pl.piterpti.message;
 import java.io.Serializable;
 
 /**
- * Created by piter on 13.04.17.
+ * Message to control mp3 player
  */
-
 public class MessagePlayerControl implements Message, Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -3,7 +3,7 @@ package pl.piterpti.controller;
 import java.util.HashMap;
 
 /**
- * Created by piter on 09.04.17.
+ * Actions for player
  */
 public class Actions {
 
@@ -21,7 +21,7 @@ public class Actions {
     public static final long APP_CLOSED = 12L;
 
 
-    public static HashMap<Long, String> actionNames = new HashMap<>();
+    private static HashMap<Long, String> actionNames = new HashMap<>();
 
     static {
         actionNames.put(PLAY_MUSIC, "playMusic");

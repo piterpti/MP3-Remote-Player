@@ -9,8 +9,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-/**
- * Created by piter on 18.04.17.
+ /**
+ * Thread to send playlist to remote device
  */
 public class ConnectedHosts implements Runnable {
 

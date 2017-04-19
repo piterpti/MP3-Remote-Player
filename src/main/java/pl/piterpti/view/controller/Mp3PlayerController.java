@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import static pl.piterpti.flow.Mp3PlayerFlow.*;
 
 /**
- * Created by piter on 15.04.17.
+ * Controller for mp3 player view
  */
 public class Mp3PlayerController extends MyController {
 

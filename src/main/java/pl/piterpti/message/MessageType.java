@@ -3,7 +3,7 @@ package pl.piterpti.message;
 import java.io.Serializable;
 
 /**
- * Created by piter on 13.04.17.
+ * Message types
  */
 public enum MessageType implements Serializable {
 
