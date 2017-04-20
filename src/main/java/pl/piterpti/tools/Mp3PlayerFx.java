@@ -31,6 +31,7 @@ public class Mp3PlayerFx implements Mp3Player {
 
     private int currentSongDuration;
     private int currentTime = 0;
+    private int prevCurrentTime = 0;
 
     private TrackDurationUpdater tdu;
 
@@ -157,6 +158,14 @@ public class Mp3PlayerFx implements Mp3Player {
         this.currentTime = currentTime;
     }
 
+    public synchronized int getPrevCurrentTime() {
+        return prevCurrentTime;
+    }
+
+    public synchronized void setPrevCurrentTime(int prevCurrentTime) {
+        this.prevCurrentTime = prevCurrentTime;
+    }
+
     @Override
     public synchronized void setCurrentSong(int currentSong) {
         this.currentSong = currentSong;
@@ -213,10 +222,13 @@ public class Mp3PlayerFx implements Mp3Player {
             while (true) {
                 if (player != null) {
                     setCurrentTime((int) player.getCurrentTime().toSeconds());
-                    controller.doAction(Actions.REFRESH_DURATION_TIME);
+                    if (getCurrentTime() != getPrevCurrentTime()) {
+                        controller.doAction(Actions.REFRESH_DURATION_TIME);
+                        setPrevCurrentTime(getCurrentTime());
+                    }
                 }
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -123,7 +123,7 @@ public class Mp3PlayerFlow extends Flow {
 
             synchronized (flowLock) {
                 try {
-                    flowLock.wait();
+                    flowLock.wait(1000);
                 } catch (InterruptedException e) {
                     logger.error("Error when trying thread wait: " + e.getMessage());
                 }
@@ -132,11 +132,16 @@ public class Mp3PlayerFlow extends Flow {
     }
 
     private void rewindTrack(Action action) {
+        if (mp3Player.getCurrentSongDuration() < 1) {
+            viewController.setUISongPosition("00:00:00", 0, 0);
+            return;
+        }
+
         Integer rewind = (Integer) action.getArg().getArgs().get(ARG_REWIND);
         if (rewind == null) {
             mp3Player.rewindTrackTo((Integer) action.getArg().getFirstOfType(Integer.class));
         } else {
-            int currTime = mp3Player.getCurrentTime() + rewind.intValue();
+            int currTime = mp3Player.getCurrentTime() + rewind;
             int totalDuration = mp3Player.getCurrentSongDuration();
             currTime = currTime < 0 ? 0 : currTime;
             currTime = currTime > totalDuration ? totalDuration : currTime;
@@ -195,7 +200,7 @@ public class Mp3PlayerFlow extends Flow {
     private void setVolume(Action action) {
         float valF = (int) action.getArg().getArgs().get(ARG_VOLUME);
         valF /= 100;
-        logger.info("Volume set to " + valF);
+        logger.debug("Volume set to " + valF);
         mp3Player.setVolume(valF);
     }
 
