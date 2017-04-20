@@ -75,4 +75,27 @@ public interface Mp3Player {
      */
     double getVolume();
 
+    /**
+     * @return song duration in seconds
+     */
+    int getCurrentSongDuration();
+
+    /**
+     *
+     * @param currentSongDuration
+     */
+    void setCurrentSongDuration(int currentSongDuration);
+
+    /**
+     *
+     * @return
+     */
+    int getCurrentTime();
+
+    /**
+     *
+     * @param duration
+     */
+    void rewindTrackTo(int duration);
+
 }

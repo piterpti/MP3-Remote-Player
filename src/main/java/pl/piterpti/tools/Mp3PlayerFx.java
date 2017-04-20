@@ -2,12 +2,16 @@ package pl.piterpti.tools;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
+import pl.piterpti.message.FlowArgs;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Mp3 player based on JavaFX (MediaPlayer)
@@ -25,8 +29,20 @@ public class Mp3PlayerFx implements Mp3Player {
     private double currentVolume = 1;
     private boolean playing = false;
 
+    private int currentSongDuration;
+    private int currentTime = 0;
+
+    private TrackDurationUpdater tdu;
+
+
     public Mp3PlayerFx(Controller controller) {
         this.controller = controller;
+
+        tdu = new TrackDurationUpdater();
+        Thread t = new Thread(tdu);
+        t.setDaemon(true);
+        t.start();
+
     }
 
 
@@ -36,16 +52,28 @@ public class Mp3PlayerFx implements Mp3Player {
             return;
         }
         if (!paused) {
+            setCurrentSongDuration(0);
+            setCurrentTime(0);
             Media media = new Media(songsFileList.get(getCurrentSong()).getAbsoluteFile().toURI().toString());
             player = new MediaPlayer(media);
+
             endSongListener = new EndSongListener();
             player.setOnEndOfMedia(endSongListener);
             player.setVolume(currentVolume);
-            player.play();
+
+
+            player.setOnReady(() -> {
+                setCurrentSongDuration((int) media.getDuration().toSeconds());
+                controller.doAction(Actions.REFRESH_DURATION_TIME);
+                player.play();
+            });
+
 
         } else {
             player.setVolume(currentVolume);
-            player.play();
+            player.setOnReady(() -> {
+                player.play();
+            });
         }
         playing = true;
         paused = false;
@@ -121,6 +149,14 @@ public class Mp3PlayerFx implements Mp3Player {
         currentSong--;
     }
 
+    public synchronized int getCurrentTime() {
+        return currentTime;
+    }
+
+    public synchronized void setCurrentTime(int currentTime) {
+        this.currentTime = currentTime;
+    }
+
     @Override
     public synchronized void setCurrentSong(int currentSong) {
         this.currentSong = currentSong;
@@ -152,7 +188,46 @@ public class Mp3PlayerFx implements Mp3Player {
 
         @Override
         public void run() {
+            setCurrentTime(0);
+            controller.doAction(Actions.REFRESH_DURATION_TIME);
             controller.doAction(Actions.NEXT_MUSIC);
         }
     }
+
+
+
+    public synchronized int getCurrentSongDuration() {
+        return currentSongDuration;
+    }
+
+    public synchronized void setCurrentSongDuration(int currentSongDuration) {
+        this.currentSongDuration = currentSongDuration;
+    }
+
+
+
+    class TrackDurationUpdater implements Runnable {
+
+        @Override
+        public void run() {
+            while (true) {
+                if (player != null) {
+                    setCurrentTime((int) player.getCurrentTime().toSeconds());
+                    controller.doAction(Actions.REFRESH_DURATION_TIME);
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+    public void rewindTrackTo(int duration) {
+        player.seek(new Duration(duration * 1000));
+        setCurrentTime(getCurrentTime() + duration);
+    }
+
 }

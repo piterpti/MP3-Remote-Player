@@ -8,6 +8,7 @@ import pl.piterpti.controller.Actions;
 import pl.piterpti.message.FlowArgs;
 import pl.piterpti.tools.Mp3Player;
 import pl.piterpti.tools.Mp3PlayerFx;
+import pl.piterpti.tools.Toolkit;
 import pl.piterpti.view.controller.Mp3PlayerController;
 import pl.piterpti.view.controller.OpenScene;
 
@@ -29,6 +30,8 @@ public class Mp3PlayerFlow extends Flow {
     public static final String ARG_ADD_SONG = "addSong";
     public static final String ARG_PLAY_SONG_BY_NAME = "playSongByName";
     public static final String ARG_VOLUME = "volume";
+    public static final String ARG_REWIND = "rewindTo";
+
 
     private Mp3PlayerController viewController;
     @SuppressWarnings("unused")
@@ -78,35 +81,45 @@ public class Mp3PlayerFlow extends Flow {
             Action action;
 
             while ((action = flowActions.poll()) != null) {
-                long actionId = action.getId();
+                try {
+                    long actionId = action.getId();
 
-                if (actionId == Actions.PLAY_MUSIC) {
-                    mp3Player.play();
-                    refreshList();
-                } else if (actionId == Actions.STOP_MUSIC) {
-                    mp3Player.stop();
-                } else if (actionId == Actions.PAUSE_MUSIC) {
-                    mp3Player.pause();
-                } else if (actionId == Actions.NEXT_MUSIC) {
-                    mp3Player.next();
-                    refreshList();
-                } else if (actionId == Actions.PREV_MUSIC) {
-                    mp3Player.prev();
-                    refreshList();
-                } else if (actionId == Actions.CUSTOM_MUSIC) {
-                    playCustomMusic(action);
-                } else if (actionId == Actions.CUSTOM_MUSIC_BY_NAME) {
-                    playSongFromHost(action);
-                } else if (actionId == Actions.PLAY_MUSIC_BY_NAME) {
-                    playSongByName(action);
-                } else if (actionId == Actions.SET_VOLUME) {
-                    setVolume(action);
-                } else if (actionId == Actions.SET_VOLUME_REMOTE) {
-                    setVolumeRemote(action);
-                } else if (actionId == Actions.REFRESH_PLAYLIST) {
-                    refreshList();
+                    if (actionId == Actions.PLAY_MUSIC) {
+                        mp3Player.play();
+                        refreshList();
+                    } else if (actionId == Actions.STOP_MUSIC) {
+                        mp3Player.stop();
+                    } else if (actionId == Actions.PAUSE_MUSIC) {
+                        mp3Player.pause();
+                    } else if (actionId == Actions.NEXT_MUSIC) {
+                        mp3Player.next();
+                        refreshList();
+                    } else if (actionId == Actions.PREV_MUSIC) {
+                        mp3Player.prev();
+                        refreshList();
+                    } else if (actionId == Actions.CUSTOM_MUSIC) {
+                        playCustomMusic(action);
+                    } else if (actionId == Actions.CUSTOM_MUSIC_BY_NAME) {
+                        playSongFromHost(action);
+                    } else if (actionId == Actions.PLAY_MUSIC_BY_NAME) {
+                        playSongByName(action);
+                    } else if (actionId == Actions.SET_VOLUME) {
+                        setVolume(action);
+                    } else if (actionId == Actions.SET_VOLUME_REMOTE) {
+                        setVolumeRemote(action);
+                    } else if (actionId == Actions.REFRESH_PLAYLIST) {
+                        refreshList();
+                    } else if (actionId == Actions.REFRESH_DURATION_TIME) {
+                        refreshUI();
+                    } else if (actionId == Actions.REWIND_TRACK_TO) {
+                        rewindTrack(action);
+                    }
+
+                }catch (Exception e) {
+                    logger.error(e.getMessage());
                 }
             }
+
 
             synchronized (flowLock) {
                 try {
@@ -115,6 +128,19 @@ public class Mp3PlayerFlow extends Flow {
                     logger.error("Error when trying thread wait: " + e.getMessage());
                 }
             }
+        }
+    }
+
+    private void rewindTrack(Action action) {
+        Integer rewind = (Integer) action.getArg().getArgs().get(ARG_REWIND);
+        if (rewind == null) {
+            mp3Player.rewindTrackTo((Integer) action.getArg().getFirstOfType(Integer.class));
+        } else {
+            int currTime = mp3Player.getCurrentTime() + rewind.intValue();
+            int totalDuration = mp3Player.getCurrentSongDuration();
+            currTime = currTime < 0 ? 0 : currTime;
+            currTime = currTime > totalDuration ? totalDuration : currTime;
+            mp3Player.rewindTrackTo(currTime);
         }
     }
 
@@ -189,6 +215,14 @@ public class Mp3PlayerFlow extends Flow {
         args.addArg(ARG_CURRENT_SONG, mp3Player.getCurrentSong());
         viewController.refresh(args);
         refreshPlaylist();
+    }
+
+    private void refreshUI() {
+        int duration = mp3Player.getCurrentSongDuration();
+        int currentTime = mp3Player.getCurrentTime();
+        String time = Toolkit.secondsToTimeString(currentTime) + " / ";
+        time +=Toolkit.secondsToTimeString(duration);
+        viewController.setUISongPosition(time, duration, currentTime);
     }
 
     @Override

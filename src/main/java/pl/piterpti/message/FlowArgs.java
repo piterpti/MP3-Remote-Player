@@ -2,6 +2,7 @@ package pl.piterpti.message;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Args fot actions
@@ -33,5 +34,15 @@ public class FlowArgs implements Serializable {
         return "FlowArgs{" +
                 "args=" + args +
                 '}';
+    }
+
+    public Object getFirstOfType(Class<?> aClass) {
+        for (Map.Entry<String, Object> el : args.entrySet()) {
+            if (aClass.isAssignableFrom(el.getValue().getClass())) {
+                return el.getValue();
+            }
+        }
+
+        return null;
     }
 }

@@ -193,6 +193,12 @@ public class RemoteHost extends Thread {
             case MSG_CLOSE_APP:
                 controller.doAction(Actions.APP_CLOSED);
                 break;
+            case MSG_REV_FORWARD:
+                controller.doAction(Actions.REWIND_TRACK_TO, new FlowArgs(Mp3PlayerFlow.ARG_REWIND, 20));
+                break;
+            case MSG_REV_BACKWARD:
+                controller.doAction(Actions.REWIND_TRACK_TO, new FlowArgs(Mp3PlayerFlow.ARG_REWIND, -20));
+                break;
             default:
                 logger.warn("Unhandled msg from client: " + msg);
                 break;

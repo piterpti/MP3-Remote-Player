@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<?import javafx.scene.control.Slider?>
 <AnchorPane fx:id="mainPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@Mp3Player.css" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.piterpti.view.controller.Mp3PlayerController">
    <children>
       <GridPane prefHeight="400.0" prefWidth="600.0">
@@ -39,7 +40,9 @@
                   <Button fx:id="pauseBtn" mnemonicParsing="false" text="Pause" GridPane.columnIndex="1" />
                   <!--<Button fx:id="customBtn" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
                   <Button fx:id="nextBtn" mnemonicParsing="false" text="Next" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                   <Slider fx:id="volumeSlider" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                   <Slider fx:id="volumeSlider" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Slider fx:id="songPosition" GridPane.rowIndex="4" />
+                  <Label fx:id="positionLabel" text="0:00" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
             </GridPane>
             <ListView fx:id="playlistListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />

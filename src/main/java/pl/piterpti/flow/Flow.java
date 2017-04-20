@@ -39,7 +39,7 @@ public abstract class Flow implements Runnable {
     protected abstract void init();
 
     public void handleAction(Action action) {
-        logger.info("Adding action to queue " + action.getId() + " - " + Actions.resolveActionName(action.getId()));
+        logger.debug("Adding action to queue " + action.getId() + " - " + Actions.resolveActionName(action.getId()));
         flowActions.add(action);
     }
 

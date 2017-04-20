@@ -148,6 +148,26 @@ public class Mp3PlayerJLayer implements Mp3Player{
         return 0;
     }
 
+    @Override
+    public int getCurrentSongDuration() {
+        return 0;
+    }
+
+    @Override
+    public void setCurrentSongDuration(int currentSongDuration) {
+
+    }
+
+    @Override
+    public int getCurrentTime() {
+        return 0;
+    }
+
+    @Override
+    public void rewindTrackTo(int duration) {
+
+    }
+
     class EndSongListener implements Runnable {
 
         @Override

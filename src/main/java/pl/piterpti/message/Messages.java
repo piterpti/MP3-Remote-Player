@@ -16,4 +16,6 @@ public class Messages {
     public static final String MSG_CURRENT_SONG = MSG + "CURRENT_SONG";
     public static final String MSG_REFRESH_PLAYLIST = MSG + "REFRESH_PLAYLIST";
     public static final String MSG_CLOSE_APP = MSG + "CLOSE_APP";
+    public static final String MSG_REV_FORWARD = MSG + "20sForward";
+    public static final String MSG_REV_BACKWARD = MSG + "20sBackward";
 }

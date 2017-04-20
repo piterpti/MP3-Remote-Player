@@ -35,10 +35,11 @@ public class ConnectedHosts implements Runnable {
         Socket socket = null;
         try {
             socket = new Socket(host, port);
+            socket.setSoTimeout(2*1000);
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(mpl);
             oos.flush();
-            logger.info("Playlist sent to " + host);
+            logger.debug("Playlist sent to " + host);
 
             oos.close();
         } catch (Exception e) {

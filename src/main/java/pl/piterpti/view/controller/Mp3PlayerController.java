@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import pl.piterpti.controller.Actions;
@@ -46,7 +47,15 @@ public class Mp3PlayerController extends MyController {
     @FXML
     private Slider volumeSlider;
 
+    @FXML
+    private Slider songPosition;
+
+    @FXML
+    private Label positionLabel;
+
     private ObservableList<String> playlist;
+
+    private int currTime;
 
 
     @FXML
@@ -73,6 +82,15 @@ public class Mp3PlayerController extends MyController {
         volumeSlider.setMax(100);
         volumeSlider.setValue(100);
         volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> controller.doAction(Actions.SET_VOLUME, new FlowArgs(Mp3PlayerFlow.ARG_VOLUME, newValue.intValue())));
+
+        songPosition.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (currTime != newValue.intValue()) {
+                    controller.doAction(Actions.REWIND_TRACK_TO, new FlowArgs("rewind", newValue.intValue()));
+                }
+            }
+        });
     }
 
     private void setButtonSize() {
@@ -117,6 +135,16 @@ public class Mp3PlayerController extends MyController {
                 playlistListView.scrollTo(playlist.size());
             });
         }
+    }
+
+    public void setUISongPosition(String textDuration, int duration, int currTime) {
+        this.currTime = currTime;
+        Platform.runLater(() -> {
+            positionLabel.setText(textDuration + "");
+            songPosition.setMax(duration);
+            songPosition.setValue(currTime);
+
+        });
     }
 
     public void setVolumeSliderValue(double newVal) {

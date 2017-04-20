@@ -19,6 +19,9 @@ public class Actions {
     public static final long SET_VOLUME_REMOTE = 10L;
     public static final long REFRESH_PLAYLIST = 11L;
     public static final long APP_CLOSED = 12L;
+    public static final long REFRESH_DURATION_TIME = 13L;
+    public static final long REWIND_TRACK_TO = 14L;
+
 
 
     private static HashMap<Long, String> actionNames = new HashMap<>();
@@ -36,6 +39,8 @@ public class Actions {
         actionNames.put(SET_VOLUME_REMOTE, "setVolumeRemote");
         actionNames.put(REFRESH_PLAYLIST, "refreshPlaylist");
         actionNames.put(APP_CLOSED, "appClosed");
+        actionNames.put(REFRESH_DURATION_TIME, "refreshDurationTime");
+        actionNames.put(REWIND_TRACK_TO, "rewindTrackTo");
     }
 
     public static String resolveActionName(long actionId) {

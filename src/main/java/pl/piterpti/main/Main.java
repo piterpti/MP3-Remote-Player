@@ -35,7 +35,6 @@ public class Main extends Application {
 
         stage.setOnCloseRequest(event -> System.exit(0));
 
-
         ApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
         Controller controller = context.getBean("controller", Controller.class);
         controller.setContext(context);
