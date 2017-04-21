@@ -6,12 +6,9 @@ import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
-import pl.piterpti.message.FlowArgs;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import static java.lang.Thread.sleep;
 
 /**
  * Mp3 player based on JavaFX (MediaPlayer)
@@ -33,13 +30,11 @@ public class Mp3PlayerFx implements Mp3Player {
     private int currentTime = 0;
     private int prevCurrentTime = 0;
 
-    private TrackDurationUpdater tdu;
-
 
     public Mp3PlayerFx(Controller controller) {
         this.controller = controller;
 
-        tdu = new TrackDurationUpdater();
+        TrackDurationUpdater tdu = new TrackDurationUpdater();
         Thread t = new Thread(tdu);
         t.setDaemon(true);
         t.start();
@@ -72,9 +67,7 @@ public class Mp3PlayerFx implements Mp3Player {
 
         } else {
             player.setVolume(currentVolume);
-            player.setOnReady(() -> {
-                player.play();
-            });
+            player.setOnReady(() -> player.play());
         }
         playing = true;
         paused = false;
@@ -154,15 +147,15 @@ public class Mp3PlayerFx implements Mp3Player {
         return currentTime;
     }
 
-    public synchronized void setCurrentTime(int currentTime) {
+    private synchronized void setCurrentTime(int currentTime) {
         this.currentTime = currentTime;
     }
 
-    public synchronized int getPrevCurrentTime() {
+    private synchronized int getPrevCurrentTime() {
         return prevCurrentTime;
     }
 
-    public synchronized void setPrevCurrentTime(int prevCurrentTime) {
+    private synchronized void setPrevCurrentTime(int prevCurrentTime) {
         this.prevCurrentTime = prevCurrentTime;
     }
 
@@ -202,8 +195,6 @@ public class Mp3PlayerFx implements Mp3Player {
             controller.doAction(Actions.NEXT_MUSIC);
         }
     }
-
-
 
     public synchronized int getCurrentSongDuration() {
         return currentSongDuration;

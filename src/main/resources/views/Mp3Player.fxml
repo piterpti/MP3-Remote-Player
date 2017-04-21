@@ -38,7 +38,6 @@
                   <Button fx:id="stopBtn" mnemonicParsing="false" text="Stop" GridPane.rowIndex="1" />
                   <Button fx:id="prevBtn" mnemonicParsing="false" text="Prev" GridPane.rowIndex="2" />
                   <Button fx:id="pauseBtn" mnemonicParsing="false" text="Pause" GridPane.columnIndex="1" />
-                  <!--<Button fx:id="customBtn" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />-->
                   <Button fx:id="nextBtn" mnemonicParsing="false" text="Next" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                    <Slider fx:id="volumeSlider" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Slider fx:id="songPosition" GridPane.rowIndex="4" />

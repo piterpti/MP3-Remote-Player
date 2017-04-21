@@ -29,10 +29,13 @@ public class RemoteHost extends Thread {
 
     private boolean appClosing = false;
 
+    private String[] acceptedHosts;
+
     private Controller controller;
 
-    public RemoteHost(int aPort) {
+    public RemoteHost(int aPort, String[] acceptedHosts) {
         port = aPort;
+        this.acceptedHosts = acceptedHosts;
         configureServer();
     }
 
@@ -59,6 +62,18 @@ public class RemoteHost extends Thread {
         while (!appClosing) {
             try {
                 socket = hostServer.accept();
+
+                boolean passed = false;
+                for (String host : acceptedHosts) {
+                    if (host.equals(socket.getInetAddress().getHostAddress())) {
+                        passed = true;
+                        break;
+                    }
+                }
+
+                if (!passed) {
+                    logger.warn("Wrong host address. Check client.properties file");
+                }
 
                 InputStream is = socket.getInputStream();
                 ObjectInputStream ois = new ObjectInputStream(is);

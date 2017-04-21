@@ -40,15 +40,15 @@ public class Mp3PlayerFlow extends Flow {
     private RemoteHost host;
     private final Object flowLock = new Object();
 
-    private String playlistHost = "";
+    private String[] playlistHost;
     private int playlistPort = 8889;
 
     public Mp3PlayerFlow() {
         super();
         SCREEN_NAME = "MainScreen";
-        host = new RemoteHost(8888);
-        host.setDaemon(true);
         loadProperties();
+        host = new RemoteHost(8888, playlistHost);
+        host.setDaemon(true);
     }
 
     private void loadProperties() {
@@ -59,7 +59,8 @@ public class Mp3PlayerFlow extends Flow {
                 InputStream is = new FileInputStream(propertiesFile);
                 prop.load(is);
 
-                playlistHost = prop.getProperty("client_ip");
+                String hosts = prop.getProperty("client_ip").trim();
+                playlistHost = hosts.split(",");
                 playlistPort = Integer.valueOf(prop.getProperty("client_port"));
                 logger.info("Loaded config: " + playlistHost + ":" + playlistPort);
             } catch (Exception e) {
