@@ -6,9 +6,11 @@ import javafx.util.Duration;
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
+import pl.piterpti.view.controller.component.Song;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Mp3 player based on JavaFX (MediaPlayer)
@@ -18,7 +20,7 @@ public class Mp3PlayerFx implements Mp3Player {
     private MediaPlayer player;
 
     private Logger logger = Logger.getLogger(this.getClass());
-    private ArrayList<File> songsFileList = new ArrayList<>();
+    private ArrayList<Song> songsFileList = new ArrayList<>();
     private int currentSong = 0;
     private Controller controller;
     private boolean paused;
@@ -38,7 +40,6 @@ public class Mp3PlayerFx implements Mp3Player {
         Thread t = new Thread(tdu);
         t.setDaemon(true);
         t.start();
-
     }
 
 
@@ -50,7 +51,7 @@ public class Mp3PlayerFx implements Mp3Player {
         if (!paused) {
             setCurrentSongDuration(0);
             setCurrentTime(0);
-            Media media = new Media(songsFileList.get(getCurrentSong()).getAbsoluteFile().toURI().toString());
+            Media media = new Media(getSongsFileList().get(getCurrentSong()).getFile().getAbsoluteFile().toURI().toString());
             player = new MediaPlayer(media);
 
             endSongListener = new EndSongListener();
@@ -93,7 +94,7 @@ public class Mp3PlayerFx implements Mp3Player {
 
     @Override
     public void next() {
-        if (getCurrentSong() >= songsFileList.size() - 1) {
+        if (getCurrentSong() >= getSongsFileList().size() - 1) {
             setCurrentSong(0);
         } else {
             incCurrentSong();
@@ -106,7 +107,7 @@ public class Mp3PlayerFx implements Mp3Player {
     @Override
     public void prev() {
         if (getCurrentSong() <= 0) {
-            setCurrentSong(songsFileList.size() - 1);
+            setCurrentSong(getSongsFileList().size() - 1);
         } else {
             decCurrentSong();
         }
@@ -129,10 +130,19 @@ public class Mp3PlayerFx implements Mp3Player {
     @Override
     public void add(File f) {
         if (f.exists()) {
-            songsFileList.add(f);
+            getSongsFileList().add(resolveFileData(f));
         } else {
             logger.warn("Can not add not existing file: " + f.getAbsolutePath());
         }
+    }
+
+    private Song resolveFileData(File file) {
+        Song s = new Song();
+        s.setTitle(file.getName());
+        s.setFile(file);
+        getSongDuration(s);
+        s.setNumber(getSongsFileList().size() + 1);
+        return s;
     }
 
     private synchronized void incCurrentSong() {
@@ -170,15 +180,15 @@ public class Mp3PlayerFx implements Mp3Player {
     }
 
     @Override
-    public ArrayList<File> getSongsFileList() {
+    public synchronized ArrayList<Song> getSongsFileList() {
         return songsFileList;
     }
 
     @Override
     public boolean findSongByName(String song) {
         song = song.replaceAll("mp3/", "");
-        for (int i = 0; i < songsFileList.size(); i++) {
-            if (songsFileList.get(i).getName().equals(song)) {
+        for (int i = 0; i < getSongsFileList().size(); i++) {
+            if (getSongsFileList().get(i).getTitle().equals(song)) {
                 setCurrentSong(i);
                 return true;
             }
@@ -203,8 +213,6 @@ public class Mp3PlayerFx implements Mp3Player {
     public synchronized void setCurrentSongDuration(int currentSongDuration) {
         this.currentSongDuration = currentSongDuration;
     }
-
-
 
     class TrackDurationUpdater implements Runnable {
 
@@ -232,5 +240,32 @@ public class Mp3PlayerFx implements Mp3Player {
         player.seek(new Duration(duration * 1000));
         setCurrentTime(getCurrentTime() + duration);
     }
+
+    @Override
+    public void sortPlaylistAlphabetically(boolean ignoreCase) {
+        Collections.sort(getSongsFileList(), (o1, o2) -> {
+            if (ignoreCase) {
+                return o1.getFile().getName().compareToIgnoreCase(o2.getFile().getName());
+            } else {
+                return o1.getFile().getName().compareTo(o2.getFile().getName());
+            }
+        });
+
+        int counter = 1;
+        for (Song s : getSongsFileList()) {
+            s.setNumber(counter++);
+        }
+    }
+
+    private void getSongDuration(Song s) {
+        Media file = new Media(s.getFile().toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(file);
+        mediaPlayer.setOnReady(() -> {
+            getSongsFileList().get(s.getNumber() - 1).setDuration((int)file.getDuration().toSeconds());
+            controller.doAction(Actions.REFRESH_DURATION_TIME);
+        });
+
+    }
+
 
 }

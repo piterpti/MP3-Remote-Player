@@ -229,6 +229,7 @@ public class Mp3PlayerFlow extends Flow {
         String time = Toolkit.secondsToTimeString(currentTime) + " / ";
         time +=Toolkit.secondsToTimeString(duration);
         viewController.setUISongPosition(time, duration, currentTime);
+        viewController.refreshPlaylist(mp3Player.getSongsFileList());
     }
 
     @Override
@@ -263,6 +264,7 @@ public class Mp3PlayerFlow extends Flow {
             logger.info("Adding: " + mp3.getName());
             mp3Player.add(mp3);
         }
+        mp3Player.sortPlaylistAlphabetically(true);
 
         refreshPlaylist();
     }
@@ -288,4 +290,6 @@ public class Mp3PlayerFlow extends Flow {
         refresher.setName("PlaylistRefresher");
         refresher.start();
     }
+
+
 }

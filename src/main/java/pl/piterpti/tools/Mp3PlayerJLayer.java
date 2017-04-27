@@ -3,6 +3,7 @@ package pl.piterpti.tools;
 import org.apache.log4j.Logger;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
+import pl.piterpti.view.controller.component.Song;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +13,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
 
     private PausablePlayer player;
     private Logger logger = Logger.getLogger(this.getClass());
-    private ArrayList<File> songsFileList = new ArrayList<>();
+    private ArrayList<Song> songsFileList = new ArrayList<>();
     private int currentSong = 0;
     private boolean paused;
     private boolean playing;
@@ -39,7 +40,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
         }
         try {
             if (!playing) {
-                FileInputStream fis = new FileInputStream(songsFileList.get(currentSong));
+                FileInputStream fis = new FileInputStream(songsFileList.get(currentSong).getFile());
                 player = new PausablePlayer(fis, lockMP3);
                 player.play();
                 playing = true;
@@ -97,7 +98,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
     @Override
     public void add(File f) {
         if (f.exists()) {
-            songsFileList.add(f);
+            songsFileList.add(new Song());
         } else {
             logger.warn("Can not add not existing file: " + f.getAbsolutePath());
         }
@@ -122,7 +123,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
     }
 
     @Override
-    public ArrayList<File> getSongsFileList() {
+    public ArrayList<Song> getSongsFileList() {
         return songsFileList;
     }
 
@@ -130,7 +131,7 @@ public class Mp3PlayerJLayer implements Mp3Player{
     public boolean findSongByName(String song) {
         song = song.replaceAll("mp3/", "");
         for (int i = 0; i < songsFileList.size(); i++) {
-            if (songsFileList.get(i).getName().equals(song)) {
+            if (songsFileList.get(i).getFile().getName().equals(song)) {
                 setCurrentSong(i);
                 return true;
             }
@@ -165,6 +166,11 @@ public class Mp3PlayerJLayer implements Mp3Player{
 
     @Override
     public void rewindTrackTo(int duration) {
+
+    }
+
+    @Override
+    public void sortPlaylistAlphabetically(boolean ignoreCase) {
 
     }
 

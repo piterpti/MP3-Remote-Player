@@ -13,9 +13,12 @@ import javafx.scene.control.Slider;
 import pl.piterpti.controller.Actions;
 import pl.piterpti.flow.Mp3PlayerFlow;
 import pl.piterpti.message.FlowArgs;
+import pl.piterpti.view.controller.component.PlaylistView;
+import pl.piterpti.view.controller.component.Song;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static pl.piterpti.flow.Mp3PlayerFlow.*;
 
@@ -24,7 +27,7 @@ import static pl.piterpti.flow.Mp3PlayerFlow.*;
  */
 public class Mp3PlayerController extends MyController {
 
-    private ArrayList<File> songsList;
+    private ArrayList<Song> songsList;
 
     @FXML
     private Button playBtn;
@@ -53,10 +56,9 @@ public class Mp3PlayerController extends MyController {
     @FXML
     private Label positionLabel;
 
-    private ObservableList<String> playlist;
+    private PlaylistView playlist;
 
     private int currTime;
-
 
     @FXML
     @SuppressWarnings("unused")
@@ -91,6 +93,7 @@ public class Mp3PlayerController extends MyController {
                 }
             }
         });
+
     }
 
     private void setButtonSize() {
@@ -103,16 +106,17 @@ public class Mp3PlayerController extends MyController {
 
     }
 
-    public void refreshPlaylist(ArrayList<File> filePlaylist) {
-        this.playlist = FXCollections.observableArrayList();
-        for (File f : filePlaylist) {
-            this.playlist.add(f.getName());
-        }
-        Platform.runLater(() -> playlistListView.setItems(playlist));
+    public void refreshPlaylist(ArrayList<Song> filePlaylist) {
+        playlist = new PlaylistView();
+        playlist.addAll(filePlaylist);
+        Platform.runLater(() -> {
+            playlistListView.setItems(playlist);
+            playlistListView.refresh();
+        });
     }
 
     public void refresh(FlowArgs args) {
-        songsList = (ArrayList<File>) args.getArgs().get(ARG_SONG_LIST);
+        songsList = (ArrayList<Song>) args.getArgs().get(ARG_SONG_LIST);
         if (songsList != null && !songsList.isEmpty()) {
             refreshPlaylist(songsList);
         }
@@ -140,14 +144,14 @@ public class Mp3PlayerController extends MyController {
     public void setUISongPosition(String textDuration, int duration, int currTime) {
         this.currTime = currTime;
         Platform.runLater(() -> {
-            positionLabel.setText(textDuration + "");
+            positionLabel.setText(textDuration);
             songPosition.setMax(duration);
             songPosition.setValue(currTime);
-
         });
     }
 
     public void setVolumeSliderValue(double newVal) {
         Platform.runLater(() -> volumeSlider.setValue(newVal));
     }
+
 }

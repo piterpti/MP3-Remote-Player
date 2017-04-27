@@ -31,3 +31,8 @@
     -fx-fill: white;
     -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
 }
+
+.list-cell
+{
+    -fx-font: 10pt "Monospace";
+}

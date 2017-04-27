@@ -1,5 +1,7 @@
 package pl.piterpti.tools;
 
+import pl.piterpti.view.controller.component.Song;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -55,7 +57,7 @@ public interface Mp3Player {
      * Get all mp3 files
      * @return mp3 files list
      */
-    ArrayList<File> getSongsFileList();
+    ArrayList<Song> getSongsFileList();
 
     /**
      * Set current song to filename
@@ -97,5 +99,11 @@ public interface Mp3Player {
      * @param duration
      */
     void rewindTrackTo(int duration);
+
+    /**
+     * Sorting playlist
+     * @param ignoreCase if true ignore letter case
+     */
+    void sortPlaylistAlphabetically(boolean ignoreCase);
 
 }

@@ -2,6 +2,7 @@ package pl.piterpti.communication;
 
 import org.apache.log4j.Logger;
 import pl.piterpti.message.MessagePlaylist;
+import pl.piterpti.view.controller.component.Song;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,12 +21,12 @@ public class ConnectedHosts implements Runnable {
     private int port;
     private MessagePlaylist mpl;
 
-    public ConnectedHosts(String[] hosts, int port, ArrayList<File> files, int current) {
+    public ConnectedHosts(String[] hosts, int port, ArrayList<Song> songs, int current) {
         this.hosts = hosts;
         this.port = port;
         ArrayList<String> playlist = new ArrayList<>();
-        for (File f : files) {
-            playlist.add(f.getName());
+        for (Song s : songs) {
+            playlist.add(s.getTitle());
         }
         mpl = new MessagePlaylist(playlist, current);
     }

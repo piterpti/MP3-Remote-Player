@@ -5,6 +5,7 @@ import pl.piterpti.controller.Actions;
 import pl.piterpti.controller.Controller;
 import pl.piterpti.flow.Mp3PlayerFlow;
 import pl.piterpti.message.*;
+import pl.piterpti.view.controller.component.Song;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -25,7 +26,7 @@ public class RemoteHost extends Thread {
 
     private ObjectInputStream streamIn = null;
 
-    private ArrayList<File> songsList;
+    private ArrayList<Song> songsList;
 
     private boolean appClosing = false;
 
@@ -222,8 +223,8 @@ public class RemoteHost extends Thread {
 
     private boolean checkMp3Exist(String fileName) {
         fileName = fileName.replaceAll("mp3/", "");
-        for (File f : songsList) {
-            if (f.getName().equals(fileName)) {
+        for (Song s : songsList) {
+            if (s.getFile().equals(fileName)) {
                 return true;
             }
         }
@@ -231,7 +232,7 @@ public class RemoteHost extends Thread {
         return false;
     }
 
-    public void setSongsList(ArrayList<File> songsList) {
+    public void setSongsList(ArrayList<Song> songsList) {
         this.songsList = songsList;
     }
 }
